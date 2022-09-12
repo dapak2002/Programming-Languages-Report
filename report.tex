@@ -183,10 +183,10 @@ gcd(a,b):
 Input: Two whole numbers (integers) called a and b, both greater than 0.
 
 \medskip\noindent 
-(1) if a > b then replace a by a-b and go to (1).
+(1) if $$a > b$$ then replace a by a-b and go to (1).
 
 \medskip\noindent 
-(2) if b > a then replace b by b-a and go to (1).
+(2) if $$b > a$$ then replace b by b-a and go to (1).
 
 \medskip\noindent 
 Output: a
@@ -226,6 +226,21 @@ int main()
 \end{lstlisting}
 In the function gcd, there is a while loop checking if either of the inputs are 1. This will eliminate cases where the GCD is already the lowest possible and as described in Euclid's algorithm, will return 1. Within the while loop, we go over the two rules in Euclid's Algorithm. The first being if a is greater than b then a is assigned to a - b. The second rule being if b is greater than a then b is assigned to b - a. Next we resolve the output and return a as the result.
 \subsection{Week 2}
+Week 2 is focused on recursion and functions in Haskell. For this assignment, I created 6 different functions using recursion in Haskell. Find the full \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/hw2.hs}{Github Repository} here.
+
+
+\subsubsection{Function Select Evens}
+Here is a code snippet from the above mentioned Github Repository of the Select Evens function.
+\begin{lstlisting}
+select_evens :: [a] -> [a]
+select_evens [] = []
+select_evens (x:xs)
+    |mod (length xs) 2 == 1 = x : select_evens xs
+    |otherwise = select_evens xs
+\end{lstlisting}
+This function takes a list as an input and returns a list of only the even index elements. For example, from a list of ["a","b","c","d"] the function would return ["b","d"]. The first line of this function determines the input and outputs which are both lists of elements. The second line determines that an empty list from the function returns an empty list. This will become our indicator for ending recursion. Next we have an if statement saying that after the head, if there are an odd number of elements remaining, then the head element is of an even index. This means it would be appended to the returning list. If there is an even number of elements remaining, this means that the head element is of an odd index, meaning that the head element is skipped and will not be appended to the list. After all of the calculations have completed, the elements are appended to an empty list and added to the front in the order they were calculated.
+
+Collaborated with Adrian Edralin for Week 2 Assignment.
 
 \ldots
 
