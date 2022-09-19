@@ -69,104 +69,9 @@ This is a culmination of all assignments and reports for CPSC-354 taught by Alex
 
 My name is Darren Pak and I am a computer science major at Chapman University with a minor in Data Analytics. My current goals as of Fall 2022 are to find interesting job opportunities and career paths that I find enjoyable and are able to sustain my lifestyle. 
 
-\subsection{General Remarks}
-
-First you need to \href{https://www.latex-project.org/get/}{download and install} LaTeX.\footnote{Links are typeset in blue, but you can change the layout and color of the links if you locate the  \texttt{hypersetup} command.}
-%
-For quick experimentation, you can use an online editor such as \href{https://www.overleaf.com/learn}{Overleaf}. But to grade the report I will used the time-stamped pdf-files in your git repository.  
-
- 
-\medskip\noindent
-LaTeX is a markup language (as is, for example, HTML). The source code is in a \verb+.tex+ file and needs to be compiled for viewing, usually to \verb+.pdf+.
-
-
-\medskip\noindent
-If you want to change the default layout, you need to type commands. For example, \verb+\medskip+ inserts a medium vertical space and \verb+\noindent+ starts a paragraph without indentation.
- 
-\medskip\noindent
-Mathematics is typeset between double dollars, for example $$x+y=y+x.$$
-
-
-\subsection{LaTeX Resources}
-
-I start a new subsection, so that you can see how it appears in the table of contents.
-
-\subsubsection{Subsubsections}
-
-Sometimes it is good to have subsubsections.
-
-\subsubsection{Itemize and enumerate}
-
-\begin{itemize}
-\item This is how you itemize in LaTeX.
-\item I think a good way to learn LaTeX is by starting from this template file and build it up step by step. Often stackoverflow will answer your questions. But here are a few resources:
-  \begin{enumerate}
-  \item \href{https://www.overleaf.com/learn/latex/Learn_LaTeX_in_30_minutes}{Learn LaTeX in 30 minutes}
-  \item \href{https://www.latex-project.org/}{LaTeX – A document preparation system}\end{enumerate}
-\end{itemize}
-
-\subsubsection{Typesetting Code}
-
-A typical project will involve code. For the example below I took the LaTeX code from \href{https://stackoverflow.com/a/3175141/4600290}{stackoverflow} and the Haskell code from \href{https://hackmd.io/@alexhkurz/HylLKujCP}{my tutorial}.
-
-\begin{lstlisting}
--- run the transition function on a word and a state
-run :: (State -> Char -> State) -> State -> [Char] -> State
-run delta q [] = q
-run delta q (c:cs) = run delta (delta q c) cs 
-\end{lstlisting}
-%
-Short snippets such as \texttt{run :: (State -> Char -> State) -> State -> [Char] -> State} can also be directly fitted into text. There are several ways of doing this, for example, \verb@run :: (State -> Char -> State) -> State -> [Char] -> State@ is slightly different in terms of spaces and linebreaking (and can lead to layout that is better avoided), as is
-\begin{verbatim}run :: (State -> Char -> State) -> State -> [Char] -> State\end{verbatim}
-
-\noindent
-For more on the topic see \href{https://www.overleaf.com/latex/examples/code-presentations-example-different-ways-shown-in-beamer-metropolis/tsxpnyjbhbds}{Code-Presentations Example}.
-
-\medskip\noindent
-Generally speaking,  the methods for displaying code discussed above work well only for short listings of code. For entire programs, it is better to have external links to, for example, Github or \href{https://replit.com/@alexhkurz/automata01#main.hs}{Replit} (click on the "Run" button and/or the ``Code" tab).
-
-\subsubsection{More Mathematics}
-
-We have already seen $x+y=y+x$ as an example of inline maths. We can also typeset mathematics in display mode, for example
-$$\frac x y =\frac{xy}{y^2},$$
-
-\noindent
-Here is an example of equational reasoning that spans several lines:
-\begin{align*}
-{\rm fib}(3)
-& = {\rm fib}(1) +{\rm fib}(2)  & {\rm fib}(n+2) = {\rm fib}(n)  + {\rm fib}(n+1) \\
-& = {\rm fib}(1) +{\rm fib}(0)  + {\rm fib}(1) & {\rm fib}(n+2) = {\rm fib}(n)  + {\rm fib}(n+1) \\
-& = 1 + 0  +1 & {\rm fib}(0) = 0,   {\rm fib}(1) = 1\\
-& = 2 & {\rm arithmetic}
-\end{align*}
-
-\subsubsection{Definitons, Examples, Theorems, Etc}
-
-\begin{definition} 
-This is a definition.
-\end{definition}
-
-\begin{example}
-This is an example.
-\end{example}
-
-\begin{proposition}
-This is a proposition.
-\end{proposition}
-
-\begin{theorem}
-This is a theorem.
-\end{theorem}
-
-\noindent You can also create your own environment, eg if you want to have Question, Notation, Conjecture, etc.
-
-\subsection{Plagiarism}
-
-To avoid plagiarism, make sure that in addition to \cite{PL} you also cite all the external sources you use. Make sure you cite all your references in your text, not only at the end.
-
 \section{Homework}\label{homework}
 
-This section will contain your solutions to homework. 
+This section contains solutions to homework assignments. 
 
 \subsection{Week 1}
 
@@ -228,7 +133,6 @@ In the function gcd, there is a while loop checking if either of the inputs are 
 \subsection{Week 2}
 Week 2 is focused on recursion and functions in Haskell. For this assignment, I created 6 different functions using recursion in Haskell. Find the full \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/hw2.hs}{Github Repository} here.
 
-
 \subsubsection{Function Select Evens}
 Here is a code snippet from the above mentioned Github Repository of the Select Evens function.
 \begin{lstlisting}
@@ -242,7 +146,109 @@ This function takes a list as an input and returns a list of only the even index
 
 Collaborated with Adrian Edralin for Week 2 Assignment.
 
-\ldots
+\subsection{Week 3}
+Week 3 assignment is focused around the Towers of Hanoi solving algorithm and how to evaluate functions. This game functions with n number of rings and 3 poles where the objective is to move all of the rings from the first pole (0) to the last pole (2). However, you are not able to stack larger rings on top of smaller rings while only moving 1 ring at a time. This game can be played at \href{https://www.mathsisfun.com/games/towerofhanoi.html}{mathisfun.com} in a simulated environment with different numbers rings.
+
+\subsubsection{Rules of the Algorithm}
+Our algorithm follows the following rules to solve this puzzle as described in \href{https://hackmd.io/@alexhkurz/rJQwvpyMY}{Towers of Hanoi (Week 3)}:
+\begin{lstlisting}
+hanoi 1 x y = move x y
+
+hanoi (n+1) x y = 
+	hanoi n x (other x y) 
+	move x y 
+	hanoi n (other x y) y
+\end{lstlisting}
+
+When expanded for n = 5 (5 rings), this becomes:
+\begin{lstlisting}
+hanoi 5 0 2  
+	hanoi 4 0 1 
+		hanoi 3 0 2
+			hanoi 2 0 1 
+				hanoi 1 0 2 = move 0 2 
+				move  0 1
+				hanoi 1 2 1 = move 2 1 
+			move 0 2  
+			hanoi 2 1 2  
+				hanoi 1 1 0 = move 1 0  
+				move  1 2  
+				hanoi 1 0 2 = move 0 2
+        move 0 1
+        hanoi 3 2 1
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+            move 2 1
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+    move 0 2
+    hanoi 4 1 2
+        hanoi 3 1 0
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+            move 1 0
+            hanoi 2 2 0
+                hanoi 1 2 1 = move 2 1
+                move 2 0
+                hanoi 1 1 0 = move 1 0
+        move 1 2
+        hanoi 3 0 2
+            hanoi 2 0 1
+                hanoi 1 0 2 = move 0 2
+                move 0 1
+                hanoi 1 2 1 = move 2 1
+            move 0 2
+            hanoi 2 1 2
+                hanoi 1 1 0 = move 1 0
+                move 1 2
+                hanoi 1 0 2 = move 0 2
+\end{lstlisting}
+ This eventually gets simplified to the following moves where $$x->y$$ defines x being a ring moving from tower x to tower y:
+ \begin{lstlisting}
+ 0->2
+0->1
+2->1
+0->2
+1->0
+1->2
+0->2
+0->1
+2->1
+2->0
+1->0
+2->1
+0->2
+0->1
+2->1
+0->2
+1->0
+1->2
+0->2
+1->0
+2->1
+2->0
+1->0
+1->2
+0->2
+0->1
+2->1
+0->2
+1->0
+1->2
+0->2
+ \end{lstlisting}
+
+\subsubsection{Analysis Questions}
+In our original algorithm, it is shown that "hanoi" shows up 31 times. This is as the number of moves it takes to solve the puzzle meaning that the "hanoi" shows up the same number of times as the number of moves. 
+
+\noindent For 1 ring, this is simple and would only take 1 move to solve. For 2 rings, this is 3 moves to solve. For 3 rings it is 7 moves to solve, for 4 rings it is 15 moves, and for 5 rings it is 31 moves. In this we see a pattern where for each additional ring, you double the amount of moves and add 1. In conclusion if n is the number of rings, this leads us to the equation of moves(n) = 2 * moves(n - 1) + 1, where moves(1) = 1 and n is greater than 0.
+
 
 \section{Project}
 
