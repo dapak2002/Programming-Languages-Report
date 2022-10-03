@@ -573,6 +573,39 @@ for tree={
 \end{forest}
 
 \noindent In regards to the abstract syntax tree of 1+2+3, this would be identical to (1+2)+3 because we read operations from left to right which matches this order of parentheses.
+
+\subsection{Homework 5}
+Here are the evaluations found in \href{https://hackmd.io/@alexhkurz/S1D0yP8Bw}{Homework 5}.
+\begin{lstlisting}
+"x":
+Prog (EVar (Id "x"))
+
+"x x":
+Prog (EApp (EVar (Id "x")) (EVar (Id "x")))
+
+"x y":
+Prog (EApp (EVar (Id "x")) (EVar (Id "y")))
+
+"x y z":
+Prog (EApp (EApp (EVar (Id "x")) (EVar (Id "y"))) (EVar (Id "z")))
+
+"\ x.x":
+Prog (EAbs (Id "x") (EVar (Id "x")))
+
+"\ x.x x":
+Prog (EAbs (Id "x") (EApp (EVar (Id "x")) (EVar (Id "x"))))
+
+"(\ x . (\ y . x y)) (\ x.x) z":
+Prog (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EVar (Id "x")) (EVar (Id "y"))))) (EAbs (Id "x") (EVar (Id "x")))) (EVar (Id "z")))
+
+"(\ x . \ y . x y z) a b c":
+Prog (EApp (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EApp (EVar (Id "x")) (EVar (Id "y"))) (EVar (Id "z"))))) (EVar (Id "a"))) (EVar (Id "b"))) (EVar (Id "c")))
+\end{lstlisting}
+
+\noindent The 2-D abstract syntax trees are found at \href{}{the Github pdf here}.
+
+\noindent The abstract syntax trees for \href{https://hackmd.io/@alexhkurz/H1e4Nv8Bv}{Homework 5 part 2} can be found at the pdf of the evaluations in \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/Hw5-pt2.pdf}{the Github file}.
+
 \section{Project}
 
 Introductory remarks ...
