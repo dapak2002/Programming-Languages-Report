@@ -574,7 +574,7 @@ for tree={
 
 \noindent In regards to the abstract syntax tree of 1+2+3, this would be identical to (1+2)+3 because we read operations from left to right which matches this order of parentheses.
 
-\subsection{Homework 5}
+\subsection{Week 5}
 Here are the evaluations found in \href{https://hackmd.io/@alexhkurz/S1D0yP8Bw}{Homework 5}.
 \begin{lstlisting}
 "x":
@@ -606,13 +606,65 @@ Prog (EApp (EApp (EApp (EAbs (Id "x") (EAbs (Id "y") (EApp (EApp (EVar (Id "x"))
 
 \noindent The abstract syntax trees for \href{https://hackmd.io/@alexhkurz/H1e4Nv8Bv}{Homework 5 part 2} can be found at the pdf of the evaluations in \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/Hw5-pt2.pdf}{the Github file}.
 
+\subsection{Week 6}
+This week is focused on evaluating expressions using Lambda Calculus. An example of this can be found in \href{https://youtu.be/for3Meg1Lbc}{Dr. Kurz's tutorial}. 
+
+\subsubsection{Expression Evaluation}
+The expression we will be taking a look at this week is:
+\begin{lstlisting}
+(\exp . \two . \three . exp two three)
+(\m.\n. m n)
+(\f.\x. f (f x))
+(\f.\x. f (f (f x)))
+\end{lstlisting}
+Using the method described in the tutorial above, this evalutates to:
+\begin{lstlisting}
+(\exp . \two . \three . exp two three)
+(\m.\n. m n)
+(\f.\x. f (f x))
+(\f.\x. f (f (f x)))
+=
+(\two . \three . (\m.\n. m n) two three)
+(\f.\x. f (f x))
+(\f.\x. f (f (f x)))
+=
+(\three . (\m.\n. m n) (\f.\x. f (f x)) three)
+(\f.\x. f (f (f x)))
+= 
+((\m.\n. m n) (\f.\x. f (f x)) (\f.\x. f (f (f x))))
+=
+((\m.\n. m n) (\f2.\x2. f2 (f2 x2)) (\f3.\x3. f3 (f3 (f3 x3))))
+=
+((\n. (\f2.\x2. f2 (f2 x2)) n) (\f3.\x3. f3 (f3 (f3 x3))))
+=
+(((\f2.\x2. f2 (f2 x2)) (\f3.\x3. f3 (f3 (f3 x3)))))
+=
+(((\x2. (\f3.\x3. f3 (f3 (f3 x3))) ((\f3.\x3. f3 (f3 (f3 x3))) x2))))
+=
+(((\x2. (\x3. ((\f3.\x3. f3 (f3 (f3 x3))) x2) (((\f3.\x3. f3 (f3 (f3 x3))) x2) (((\f3.\x3. f3 (f3 (f3 x3))) x2) x3))))))
+=
+(((\x2. (\x3. ((\x3. x2 (x2 (x2 x3)))) (((\f3.\x3. f3 (f3 (f3 x3))) x2) (((\f3.\x3. f3 (f3 (f3 x3))) x2) x3))))))
+=
+(((\x2. (\x3. ((\x3. x2 (x2 (x2 x3)))) (((\x3.  x2 ( x2 ( x2 x3)))) (((\f3.\x3. f3 (f3 (f3 x3))) x2) x3))))))
+=
+(((\x2. (\x3. ((\x3. x2 (x2 (x2 x3)))) (((\x3.  x2 ( x2 ( x2 x3)))) (((\x3.  x2 ( x2 ( x2 x3)))) x3))))))
+=]
+(\x2. (\x3. (\x3. x2 (x2 (x2 x3))) ((\x3.  x2 ( x2 ( x2 x3))) (((\x3.  x2 ( x2 ( x2 x3)))) x3))))
+=
+(\x2. ((\x3. x2 (x2 (x2 ((\x3. x2(x2(x2 x3))) (((\x3.  x2 ( x2 ( x2 x3)))) x3)))))))
+=
+(\x2. (\x3. x2 (x2 (x2 ((x2 ( x2 ( x2 (((\x3.  x2 ( x2 ( x2 x3)))) x3)))) )))))
+=
+(\x2. (\x3. x2 (x2 (x2 (x2 ( x2 ( x2 ((x2 ( x2 (x2 x3)))))))))))
+=
+\x2. (\x3. x2(x2(x2(x2(x2(x2(x2(x2(x2 x3)))))))))
+\end{lstlisting}
+In the first line, the function is defined as 'exp' with two terms. By analyzing the evaluation we find that the function is essentially the first term to the exponent of the second term.
 \section{Project}
 
-Introductory remarks ...
-
-The following structure should be suitable for most practical projects. 
-
+For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are Github databases.
 \subsection{Specification}
+The attributees to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. This will look to create a model in which different languages can be related and characterized.
 \subsection{Prototype}
 \subsection{Documentation}
 \subsection{Critical Appraisal}
