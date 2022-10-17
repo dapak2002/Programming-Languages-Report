@@ -660,11 +660,70 @@ Using the method described in the tutorial above, this evalutates to:
 \x2. (\x3. x2(x2(x2(x2(x2(x2(x2(x2(x2 x3)))))))))
 \end{lstlisting}
 In the first line, the function is defined as 'exp' with two terms. By analyzing the evaluation we find that the function is essentially the first term to the exponent of the second term.
+
+\subsection{Week 7}
+\subsubsection{Lambda Calculus and Variable Interpretation}
+This week is understanding bound and free variables. A bound variable is a variable in a function that can be replaced with any other new variable and still retain the same meaning. A free variable is NOT a bound variable as it can some variables can only be used in certain context. My understanding of this terminology is that free variables must have a certain meaning in the context of the application and therefore cannot be replaced, whereas bound variables can be filled in and replaced as seen fit in the application. To look at some examples, we can take the \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/src/Interpreter-fragment.hs}{Interpreter-fragment.hs} from Alex Kurz as example in the context of lambda calculus.
+\begin{lstlisting}
+
+# The heart of the interpreter ... all else is "boilerplate"
+
+-- evaluate using the strategy call-by-name
+evalCBN :: Exp -> Exp  
+evalCBN (EApp e1 e2) = case (evalCBN e1) of
+    (EAbs i e3) -> evalCBN (subst i e2 e3)
+    e3 -> EApp e3 e2
+evalCBN x = x 
+
+-- generate a fresh name
+fresh :: Exp -> String
+
+-- subst id s e performs capture avoiding substitution of id by s in e
+subst :: Id -> Exp -> Exp -> Exp
+subst id s (EVar id1) | id == id1 = s
+                      | otherwise = EVar id1
+subst id s (EApp e1 e2) = EApp (subst id s e1) (subst id s e2)
+subst id s (EAbs id1 e1) = 
+    -- to avoid variable capture, we first substitute id1 with a fresh name inside the body of the λ-abstraction, obtaining e2. Only then do we proceed to apply substitution of the original s for id in the body e2.
+    let f = fresh (EAbs id1 e1)
+        e2 = subst id1 (EVar f) e1 in 
+        EAbs f (subst id s e2)
+\end{lstlisting}
+
+From this we see that in lines 5-7 there are 4 different variables, (i, e1, e2, and e3). In the context of lambda calculus, i is a free variable because this is used to represent lambda. Therefore it cannot be replaced by a different value and must be lambda in this use case. e1, e2, and e3 are bound variables because depending on the expression these will be replaced by other variables without changing the meaning of the expression. The binders for e1, e2, and e3 are represented in the functions of the interpreter. These are EApps, EAbs, subst, and evalCBN. The scope is only to the function and is limited to only evalCBN.
+
+\medskip
+If we look at lines 18-22 we see the same patterns. In this case id is representing lambda and is a free variable because it cannot be replaced in this context without changing the meaning. The other variables s, e1,e2, and f are all bound variables because they can be replaced without changing the meaning of the expression. In this case the binders for s, e1, e2, and f are the same functions described in the interpreter being EApps, EAbs, and subst. The scope is limited only to the fucntion defined as subst.
+
+\subsubsection{evalCBN Haskell interpreter}
+\medskip
+Looking at the function evaLCBN in \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/src/LambdaNat0/src/Interpreter-fragment.hs}{Interpreter-fragment.hs} we use this to evaluate two different functions.
+\begin{lstlisting}
+(\x.x)((\y.y)a)
+evalCBN ((EApp (EAbs (Id "x") (EVar (Id "x"))) (EApp (EAbs (Id "y") (EVar (Id "y"))) (EVar (Id "a"))))) = -- line 6
+evalCBN (subst (Id "x") (EApp (EAbs (Id "y") (EVar (Id "y"))) (EVar (Id "a"))) (Evar (Id "x"))) = = -- line 15
+evalCBN (EApp (EAbs (Id "y") (EVar (Id "y"))) (EVar (Id "a"))) = -- line 6
+evalCBN (subst (Id "y") (EVar (Id "a")) (EVar (Id "y"))) = -- line 15
+evalCBN (EVar (Id "a")) = -- line 8
+EVar (Id "a")
+
+(\x.\y.x) y z
+evalCBN (EApp (EAbs (Id "x") (EAbs (Id "y") (EVar (Id "x")))) (EVar (Id "y")) (EVar (Id "z"))) = -- line 6
+evalCBN(subst (Id "x") (EAbs (Id "y") (EVar (Id "x"))) (EVar (Id "y")) (EVar (Id "z"))) = -- line 15
+evalCBN(EApp (EAbs (Id "y") (EVar (Id "y"))) (EVar (Id "z"))) = -- line 6
+evalCBN (subst (Id "y") (EVar (Id "z")) (EVar (Id "y"))) = -- line 15
+evalCBN (EVar (Id "z")) = -- line 8
+EVar (Id "z")
+\end{lstlisting}
+\subsubsection{ARS Mapping}
+The ARS maps as specified in \href{https://hackmd.io/@alexhkurz/BJ7AoGcVK}{Week 7 HW} can be found at the  \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/ARSmaps.pdf}{ARSmaps.pdf} on GitHub. 
+
 \section{Project}
 
-For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are Github databases.
+For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are GitHub databases.
 \subsection{Specification}
-The attributees to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. This will look to create a model in which different languages can be related and characterized.
+The attributes to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. This will look to create a model in which different languages can be related and characterized.
+
 \subsection{Prototype}
 \subsection{Documentation}
 \subsection{Critical Appraisal}
