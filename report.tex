@@ -684,7 +684,7 @@ subst id s (EVar id1) | id == id1 = s
                       | otherwise = EVar id1
 subst id s (EApp e1 e2) = EApp (subst id s e1) (subst id s e2)
 subst id s (EAbs id1 e1) = 
-    -- to avoid variable capture, we first substitute id1 with a fresh name inside the body of the λ-abstraction, obtaining e2. Only then do we proceed to apply substitution of the original s for id in the body e2.
+    -- to avoid variable capture, we first substitute id1 with a fresh name inside the body of the lambda-abstraction, obtaining e2. Only then do we proceed to apply substitution of the original s for id in the body e2.
     let f = fresh (EAbs id1 e1)
         e2 = subst id1 (EVar f) e1 in 
         EAbs f (subst id s e2)
@@ -718,6 +718,41 @@ EVar (Id "z")
 \subsubsection{ARS Mapping}
 The ARS maps as specified in \href{https://hackmd.io/@alexhkurz/BJ7AoGcVK}{Week 7 HW} can be found at the  \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/ARSmaps.pdf}{ARSmaps.pdf} on GitHub. 
 
+\subsection{Week 8}
+This week we look at rewriting rules and how they can be terminating and go more into depth about normal forms. First we look at the assignment as described in \href{https://hackmd.io/@alexhkurz/Syn23oMHF}{String Rewriting Exercise}.
+
+\subsubsection{String Rewriting}
+From the previously mentioned exercise page, the first set of rules will be as follows:
+\begin{lstlisting}
+  aa -> a
+  bb -> b
+  ba -> ab
+  ab -> ba
+\end{lstlisting}
+We follow-up by asking these questions:
+
+\medskip
+Why does the ARS not terminate?
+What are the normal forms?
+
+\medskip
+The ARS does not terminate because line 3 (ba to ab) and line 4 (ab to ba) can cause a loop. Since it is essentially commutative that ab can go to ba and back, there is no definitive ending to "ab" and "ba".
+
+\medskip
+Can you change the rules so that the new ARS has unique normal forms (but still has the same equivalence relation)?
+
+\medskip
+Yes you can change the rules so that the new ARS has UNF and maintain the same equivalence relation. An example of this can be the rules:
+\begin{lstlisting}
+  ab -> c
+  ba -> c
+\end{lstlisting}
+
+\medskip
+What do the normal forms mean? Describe the function implemented by the ARS.
+
+\medskip
+A normal form essentially means a value or expression that cannot be simplified further by any rules. This function is removing all duplicate values and allowing one to alternate the expression from "ab" to "ba" freely. 
 \section{Project}
 
 For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are GitHub databases.
