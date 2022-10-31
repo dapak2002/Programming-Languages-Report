@@ -753,11 +753,85 @@ What do the normal forms mean? Describe the function implemented by the ARS.
 
 \medskip
 A normal form essentially means a value or expression that cannot be simplified further by any rules. This function is removing all duplicate values and allowing one to alternate the expression from "ab" to "ba" freely. 
+
+\section{Week 9} This week, the lessons are focused towards understanding more about ARS and we will perform an analysis on a set of rules. I will first talk about some milestones set for the project to put steps that are measurable towards progress of completion.
+
+\subsubsection{Final Project Milestones}
+For the final project, here are the due dates and requirements for each:
+
+\medskip
+By November 6th: Find of the top 10 most used programming languages in the last year. This will be based on the site, \href{https://madnight.github.io/githut/#/pull_requests/2021/4}{Githut 2.0} which is a site that rates different languages based on their "popularity" metric.
+
+\noindent
+Requirements: A list of the top 10 most used programming languages and a written report on reasons to include each one.
+
+\medskip
+By November 13th: Find at least a couple sentiment analysis program for Reddit and write a list of interesting features that may come along with each one. This includes pro's and con's of each program and also the ease of use to get each one working.
+
+\noindent
+Requirements: A report that includes: a list of possible NLP sentiment analysis programs for Reddit, a list of Reddit pages (may not be the default page for the language) 
+
+\medskip
+By November 20th: Create the report prototype for each programming language on Reddit. This means using a sentiment analysis program to find a list of the most commonly used words mentioned on the Reddit page within the last year. From this I can determine whether or not the program we chose is correct and any changes I may need to make in the procedure. This prototype will include a report on reasons why each word is most likely mentioned and any interesting points about the topics.
+
+\medskip
+By December 6th: Finalize the method in which sentiment analysis will be done. This is to create a list of steps or a report on how to create each model so steps may be repeated in the future. Also this is included for reference on how steps may be improved later on.
+
+\noindent
+Requirements: A procedure guide with step-by-step instructions on how to complete the sentiment analysis and find the list of the top 10 words.
+
+\medskip
+By the final due date: Complete a report on the top 10 most used programming languages and how sentiment analysis was used to find the top 10 most commonly used words on their Reddit. From this, analyze any patterns and give a report on the history of the language and what it was originally intended for. Show a comparison to how this has evolved into the use case today and what kind of discussion surrounds the language on forums from users.
+
+\subsubsection{ARS Analysis}
+The rules given to use are described as follows:
+\begin{lstlisting}
+ba -> ab
+ab -> ba
+ac -> ca
+ca -> ac
+bc -> cb
+cb -> bc
+ 
+aa -> b
+ab -> c
+ac ->  
+bb ->
+cb -> a
+cc -> b
+\end{lstlisting}
+
+From this we ask ourselves a few questions:
+
+\medskip
+What are the normal forms and how can we be sure we have found every normal form?
+
+\noindent From the rules we can understand that the first 6 lines only transpose between two forms, and the next 6 rules are how we determine normal forms. From this, we see that "a", "b", "c", and {} are the normal forms. This is because for the combinations (ab, ac, ba, bc, ca, cb) we have a rule to alternate to a reversed form (ab to ba). This is a result of every combination having a way to end in a single value (by the last 6 rules) which results to the normal forms.
+
+\medskip
+Is the ARS terminating?
+
+\noindent
+No this ARS is not terminating because there are many ways to infinitely loop. The transpose rules (ex. rule 1 and 2) are all culprits to this and can cause an infinitely loop if you decide to go between ab and ba an infinite amount of times.
+
+\medskip
+Are there unique normal forms?
+
+\noindent
+No the normal forms are not unique. Again, the transpose rules mean that there are no unique normal forms. From the same example, "ab" and "ba" both result to "c" which means the normal forms are not unique.
+
+\medskip
+Now replace in your mind the one-step rewrite relation -> by an equality =. Given this notion of =, are all the normal forms different?
+
+\noindent
+All normal forms are not different. Because we have rules to transpose from a reversed form, this means not all of the normal forms are different. For example, "ab" and "ba" both result to "c" and when we write an equality relation, although the results of "c" = "c", "ab" and "ba" are not equal.
+
+
 \section{Project}
 
 For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are GitHub databases.
 \subsection{Specification}
-The attributes to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. This will look to create a model in which different languages can be related and characterized.
+The attributes to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. By doing a sentiment analysis on the Reddit page for the programming languages, (r/Python, r/C++, r/Java and so on), we use this determine which use cases are the most popular or perhaps other interesting facts about the language (such as common errors, programs, or discussion topics). This will look to create a model in which languages are popular and how they are being used.
 
 \subsection{Prototype}
 \subsection{Documentation}
