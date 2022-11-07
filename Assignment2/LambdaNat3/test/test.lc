@@ -1,1 +1,1 @@
-if (S 0) = (S 0) then (S S 0) else (S S S 0)
+let x = a in (x y)

@@ -14,6 +14,7 @@ evalCBN ENat0 = ENat0
 evalCBN (ENatS e) = ENatS (evalCBN e)
 ----------------------------------------------------
 evalCBN (EIf e1 e2 e3 e4) = if (evalCBN e1) == (evalCBN e2) then evalCBN e3 else evalCBN e4
+evalCBN (ELet i e1 e2) = evalCBN (EApp (EAbs i e2) e1) 
 ----------------------------------------------------
 evalCBN x = x -- this is a catch all clause, currently only for variables, must be the last clause of the eval function
 
