@@ -2,9 +2,12 @@
 
 \usepackage{amsthm}
 \usepackage{amsfonts}
+
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
 \usepackage[linguistics]{forest}
 \usepackage[usenames]{color}
 \usepackage{hyperref}
@@ -825,6 +828,23 @@ Now replace in your mind the one-step rewrite relation -> by an equality =. Give
 
 \noindent
 All normal forms are not different. Because we have rules to transpose from a reversed form, this means not all of the normal forms are different. For example, "ab" and "ba" both result to "c" and when we write an equality relation, although the results of "c" = "c", "ab" and "ba" are not equal.
+
+\subsection{Week 10}
+In week 10 we continue lambda calculus reductions and computations. For this week's exercise the problem to solve is defined in \href{https://hackmd.io/@alexhkurz/rJEeYqZtw}{Lambda Calculus: Extensions} by Alex Kurz. This problem is to be solved using previously attempted equational reasoning methods.
+
+\subsubsection{Solving fix_F 2}
+The problem is defined as follows:
+\begin{lstlisting}
+\f.\n if n == 0 then 1 else f(n-1)*n
+fix_F \approx F fix_f
+\end{lstlisting}
+
+This is solved using equational reasoning as follows (image is also uploaded to \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/HW10.png}{Github}):
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=14cm]{HW10.png}
+\end{figure}
 
 
 \section{Project}
