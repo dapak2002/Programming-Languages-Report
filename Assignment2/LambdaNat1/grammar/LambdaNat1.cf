@@ -1,0 +1,34 @@
+------------------
+-- Lambda Calculus
+------------------
+
+Prog.   Program ::= Exp ; 
+EAbs.   Exp1 ::= "\\" Id "." Exp ;  
+EApp.   Exp2 ::= Exp2 Exp3 ; 
+ENat0.  Exp3 ::= "0" ;
+ENatS.  Exp3 ::= "S" Exp3 ; 
+EVar.   Exp4 ::= Id ; 
+
+coercions Exp 4 ;
+
+token Id (letter (letter | digit | '_')*) ; -- Identifiers start with a letter followed by any number of letters, digits, or underscores
+
+comment "//" ; 
+comment "/*" "*/" ;
+
+----------------------------------------------
+----------------------------------------------
+-- parse the following expressions by running 
+--   ./TestLambdaNat test.lc 
+-- in the terminal in the directory where you have TestLambdaNat
+-- and where test.lc contains any one of the expressions below.
+--
+-- Verify that the following statements are correct:
+--
+-- ((x y) z) equals x y z
+-- \x.x x x equals \x. ((x x) x) -- whitespace can usually be ignored but not between the x (why?)
+-- (\x.x) x x equals (((\x.x) x) x) 
+--
+-- Btw, I say that two strings are equal if they produce the same parse tree (abstract syntax tree)
+----------------------------------------------
+----------------------------------------------
