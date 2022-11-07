@@ -40,7 +40,7 @@ subst id s (EAbs id1 e1) =
         e2 = subst id1 (EVar f) e1 in 
         EAbs f (subst id s e2)
 ----------------------------------------------------------------
---- YOUR CODE goes here if subst needs to be extended as well
+subst id s (EIf e1 e2 e3 e4) = EIf (subst id s e1) (subst id s e2) (subst id s e3) (subst id s e4)
 ----------------------------------------------------------------
 subst id s ENat0 = ENat0 
 subst id s (ENatS e) = ENatS (subst id s e)
