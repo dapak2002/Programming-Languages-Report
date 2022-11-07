@@ -1,6 +1,5 @@
-
-
-(\x.(if (S((\x.x) 0)) = (S((\x.x) 0)) then ((minus_one S S 0)) else (x))) (if (S((\x.x) 0)) = (S((\x.x) 0)) then ((minus_one S S 0)) else (S S 0)) 
+(\x.minus_one y) (minus_one abc)
+//(\x.(if (S((\x.x) 0)) = (S((\x.x) 0)) then ((minus_one S S 0)) else (x))) (if (S((\x.x) 0)) = (S((\x.x) 0)) then ((minus_one S S 0)) else (S S 0)) 
 // test for EIf in evalCBN and subst
 
 //S((\x.x) 0)
