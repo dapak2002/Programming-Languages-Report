@@ -41,6 +41,9 @@ subst id s (EAbs id1 e1) =
         EAbs f (subst id s e2)
 ----------------------------------------------------------------
 subst id s (EIf e1 e2 e3 e4) = EIf (subst id s e1) (subst id s e2) (subst id s e3) (subst id s e4)
+subst id s (ELet i e1 e2) = subst id s (EApp (EAbs i e2) e1)
+subst id s (EMinusOne (ENatS e)) = subst id s e
+subst id s (EMinusOne e) = subst id s e
 ----------------------------------------------------------------
 subst id s ENat0 = ENat0 
 subst id s (ENatS e) = ENatS (subst id s e)
