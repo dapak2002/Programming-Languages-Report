@@ -13,7 +13,9 @@ evalCBN (EApp e1 e2) = case (evalCBN e1) of
     e3 -> EApp e3 e2
 ----------------------------------------------------
 evalCBN ENat0 = ENat0
-evalCBN (ENatS a) = ENatS (evalCBN a)
+evalCBN (ENatS e) = ENatS (evalCBN e)
+
+evalCBN (EIf e1 e2 e3 e4) = if ((evalCBN e1) == (evalCBN e2)) then (evalCBN e3) else (evalCBN e4)
 ----------------------------------------------------
 evalCBN x = x -- this is a catch-all clause, must be the last clause of the eval function
 
@@ -39,6 +41,6 @@ subst id s (EAbs id1 e1) =
         EAbs f (subst id s e2)
 ----------------------------------------------------------------
 subst id s ENat0 = ENat0
-subst id s (ENatS a) = ENatS (subst id s a)
+subst id s (ENatS e) = ENatS (subst id s e)
 ----------------------------------------------------------------
 
