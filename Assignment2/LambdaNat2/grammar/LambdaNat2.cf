@@ -1,0 +1,17 @@
+-----------------------------------------
+-- Lambda Calculus with Natural Numbers 1
+-----------------------------------------
+
+Prog.   Program ::= Exp ; 
+EAbs.   Exp1 ::= "\\" Id "." Exp ;  
+EApp.   Exp2 ::= Exp2 Exp3 ; 
+ENat0.  Exp3 ::= "0" ; 
+ENatS.  Exp3 ::= "S" Exp3 ; -- "S" is now a 'terminal symbol' and cannot be parsed as an identifier
+EVar.   Exp4 ::= Id ; 
+
+coercions Exp 4 ;
+
+token Id (letter (letter | digit | '_')*) ;
+
+comment "//" ;
+comment "/*" "*/" ;
