@@ -846,6 +846,29 @@ This is solved using equational reasoning as follows (image is also uploaded to 
     \includegraphics[width=14cm]{HW10.png}
 \end{figure}
 
+\subsection{Week 11}
+For this week we analyze the article of \href{https://hackmd.io/@alexhkurz/rJ9O5tZSo}{composing contracts} as mentioned by Alex Kurz in this assignment. I then asked the following question in a discussion and replied to a few of my peers questions.
+
+\subsubsection{My Question}
+For my question, I want to focus on the section about combining contracts. What is interesting to me is that contracts can be combined, but there was no example of any type of tree that can be created through combining contracts. For example, if a contract would return some value A and from A we create another contract to return B, then another to return C this would look like A -> B -> C. This is of course assuming that all of the conditions from the contracts are being met and through combining contracts this is also combining the conditions.
+
+Is there a transitive property that can be written to go A ->C? And if so what would the abstract syntax tree look like? This also asks another questions if there are other unexplored properties of contracts.
+
+\subsubsection{Responses}
+These are the responses to my peers.
+
+\medskip
+By Luke Boctor: Why did the creators decide to design and implement their contract valuation engine in Haskell? Could there be a better host language for their objectives?
+
+\medskip
+Answer: I believe that Haskell is chosen for this implementation because of the unique way that rules/substitution work in Haskell. In this case, contracts benefit from being able to write the equivalence relationships easily using Haskell's "=".  A contract with a condition can be resolved by simply evaluating which in Haskell is through the nature of the language to simplify the expression as much as possible using various rules. 
+
+\medskip
+By Devon Foy: Contracts aren't the only area of finance that could potentially benefit from the concepts in the paper. How could this technology be expanded on to compose and value combinations of other financial instruments such as mortgage backed securities?
+
+\medskip
+Another potential area of use could be the retail sector. It seems contracts are another way to create "trades" are ensure that a condition is fulfilled with a result at the end. For example, in a used item market where items are being sold, bought, and traded. The values of these items may not all be tracked properly and therefore contracts could be a solution to ensure all of the requirements and outputs get resolved.
+
 
 \section{Project}
 
