@@ -43,6 +43,24 @@ even a:b:c:#
 
 ;;
 
+let rec append = \e. \list.
+    if list = #
+        then e : #
+    else
+        (hd list) : (append e (tl list))
+in
+let rec reverse = \list.
+    if list = #
+        then #
+    else if length (list) = 1
+        then (hd list) : #
+    else
+        append (hd list) (reverse (tl list))
+in
+reverse a:b:c:#
+
+;;
+
 let rec weave = \list. \list2.
     if list = #
         then list2
@@ -50,3 +68,5 @@ let rec weave = \list. \list2.
         (hd list) : (weave (tl list) list2)
 in
 weave (0:1:4:#) (2:3:5:#)
+
+// Output: 1 ;; 8 ;; 3 ;; 0 ;; c : b : a : # ;; 0 : 1 : 4 : 2 : 3 : 5 : #
