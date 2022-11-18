@@ -39,7 +39,7 @@ let rec even = \list.
             then 0
         else even (tl (tl list))
 in
-even a:b:c:#
+even a:b:c:d:#
 
 ;;
 
@@ -69,4 +69,4 @@ let rec weave = \list. \list2.
 in
 weave (0:1:4:#) (2:3:5:#)
 
-// Output: 1 ;; 8 ;; 3 ;; 0 ;; c : b : a : # ;; 0 : 1 : 4 : 2 : 3 : 5 : #
+// Output: 1 ;; 8 ;; 3 ;; 1 ;; c : b : a : # ;; 0 : 1 : 4 : 2 : 3 : 5 : #
