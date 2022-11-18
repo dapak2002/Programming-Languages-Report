@@ -6,4 +6,32 @@ tl a:b:c:#
 
 ;;
 
-2 less_equal 3
+30 less_equal 0
+
+;;
+
+hd ((\ x . x) a : #)
+
+;;
+
+hd ((\ x . x) a) : #
+
+;;
+
+hd one:two
+
+;;
+
+hd one:two:#
+
+;;
+
+hd (one:two):#
+
+;;
+
+hd (one:two:#):#
+
+;;
+
+(hd one:two:#):#
