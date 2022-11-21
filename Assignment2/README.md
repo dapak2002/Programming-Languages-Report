@@ -10,7 +10,7 @@
 # Critical Appraisal
 * There are a lot of interesting questions. For example, #:# does not parse, but (#):# does. Why? Does that mean that it would make sense to change the grammar?
 
-/# is the end of the list while (#) is an empty list. If we have a list that is two items and the first item is the end of the list, that does not make sense when programming. So in this case #:# is not allowed to parse. With (#):#, since (#) is an empty list it is allowed to be a list item. This makes (#):# an allowed list that contains one item, an empty list.
+- # is the end of the list while (#) is an empty list. If we have a list that is two items and the first item is the end of the list, that does not make sense when programming. So in this case #:# is not allowed to parse. With (#):#, since (#) is an empty list it is allowed to be a list item. This makes (#):# an allowed list that contains one item, an empty list.
 
 * Explain what changes where made in LambdaNat4 in order to accommodate multiple test cases (separated by ;;) in the same file.
 
