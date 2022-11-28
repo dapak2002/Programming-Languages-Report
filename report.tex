@@ -869,6 +869,23 @@ By Devon Foy: Contracts aren't the only area of finance that could potentially b
 \medskip
 Another potential area of use could be the retail sector. It seems contracts are another way to create "trades" are ensure that a condition is fulfilled with a result at the end. For example, in a used item market where items are being sold, bought, and traded. The values of these items may not all be tracked properly and therefore contracts could be a solution to ensure all of the requirements and outputs get resolved.
 
+\subsection{Week 12}
+This week is focused on Hoarse Logic and finding invariants as well as resolving the pre/postconditions. 
+
+\subsubsection{Condition Analysis}
+The condition we will be analyzing is:
+\begin{lstlisting}
+while (x!=0) do z:=z*y;  x:= x-1 done
+\end{lstlisting}
+
+\medskip
+To start off our analysis, we will be finding the precondition as well as the postcodition in order to get a better understanding of the problem. By looking at the equation, we can understand that x is greater than or equal to 0 because of "while (x!=0)" and we also understand that z must start at 1 so that "z=z*y" is not nullified by a 0, and therefore starts at 1 so that z is able to increase. From this, we find that the precondition would be: $$x \geq 0 \wedge z = 1$$ To find the post condition, we take a better understanding of the equation as x is the exponent of y with z being the result. In an equation this would look like: $$z = y^x$$
+
+\subsubsection{Hoare Logic}
+To find the Hoare Rule for the above while loop, we can rewrite the equation as:
+$$\frac{\{I\}S\{I\}}{\{I\}while B do S done \{ \neg B \wedge I \}}$$
+
+In this case, S represents: $$z := z * y; x:= x - 1$$ This means that I represents the while loop invariant. By doing an example of a given number, we can resolve a new invariant through using numbers. For example, if x is 10, y is 2, and z is 1, then we find that the result of this example using algebra will be $$z = 2^{(10-x)}$$ Using the precondition and postcondition as stated in the earlier section, we create $$z = y^{(t - x)}$$ where t represents the number of times the loop occurs. Replacing y with k, the invariant results to $$z = k^{(t - x)}$$
 
 \section{Project}
 
