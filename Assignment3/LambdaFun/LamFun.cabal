@@ -1,0 +1,84 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.0.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: d652f0e9982a94ed1aaa4c60756cce0dbe995cd17b8c7a3933985bf5ef0f62e0
+
+name:           LamFun
+version:        3.14.1
+description:    Please see the README on GitHub at <https://github.com/goodlyrottenapple/LamFun#README>
+homepage:       https://github.com/goodlyrottenapple/LamFun#README
+bug-reports:    https://github.com/goodlyrottenapple/LamFun/issues
+author:         Samuel Balco
+maintainer:     lamfun@definitelynotspam.email
+copyright:      2019 Samuel Balco
+license:        BSD3
+license-file:   LICENSE
+build-type:     Simple
+
+source-repository head
+  type: git
+  location: https://github.com/goodlyrottenapple/LamFun
+
+library
+  exposed-modules:
+      LamFunSyntax, LamFunLexer, LamFunParser, LamFunInterpreter, Environment, Memory, LamInterpreter, LamNatInterpreter, LamRecInterpreter, LamMemInterpreter, LamArrayInterpreter, Utils
+  other-modules:
+      Paths_LamFun
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.9 && <5
+    , array
+    , containers
+    , mtl
+    , string-conv
+    , text
+    , Earley
+    , hashable
+    , unordered-containers
+    , singletons <3
+  default-language: Haskell2010
+  -- ghc-options: -ddump-splices -fwarn-incomplete-patterns -fwarn-incomplete-uni-patterns
+
+executable lamfun
+  main-is: Main.hs
+  other-modules:
+      Paths_LamFun
+  hs-source-dirs:
+      app
+  ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      LamFun
+    , transformers
+    , string-conv
+    , repline 
+    , containers
+    , pretty-simple
+    , singletons <3
+    , haskeline 
+    , exceptions
+    , Earley
+    , silently
+    , split
+    , extra
+    , base >=4.9 && <5
+  default-language: Haskell2010
+
+test-suite LamFun-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_LamFun
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.9 && <5
+    , LamFun
+    , filepath
+    , directory
+    , mtl
+  default-language: Haskell2010

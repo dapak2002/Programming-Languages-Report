@@ -1,0 +1,12 @@
+# Run the following from the commandline:
+# docker build -t haskell-pl3 . 
+# docker run -d -it --name lambdafun -v <your path>:/home haskell-pl3
+# docker attach lambdafun
+# cd /home
+# ls
+# See https://hackmd.io/@alexhkurz/HJxD19_Vo for more details
+
+FROM haskell:8.10.7
+WORKDIR /
+RUN cabal update;
+CMD /bin/bash

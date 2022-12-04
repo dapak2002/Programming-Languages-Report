@@ -1,0 +1,41 @@
+val nil = 
+    let val a = new [] in 
+    a := "NULL";
+    a ;;
+
+val cons = \e. \a. 
+    let val b = new [] in
+    b := [e,a];
+    b ;;
+
+val hd = \a.
+    case !a of {
+        "NULL"-> "tried to take the head of an empty list",
+        [e,a'] -> e 
+    } ;;
+
+val tl = \a.
+    case !a of {
+        "NULL" -> "tried to take the tail of an empty list",
+        [e,a'] -> a'
+    } ;;
+
+rec lengthRec = \l. 
+    case !l of { 
+        "NULL" -> 0 , 
+        _ -> 1 + length (tail l) 
+    } ;;
+
+val length = \a. 
+    let val ptr = new [] in
+    let val i = new [] in
+    i := 0;
+    ptr := a;
+    while !(!ptr) != "NULL" do
+        case !(!ptr) of {
+            [e,a'] -> 
+                    i := !i + 1; 
+                ptr := a'
+        } ;
+    !i;;
+

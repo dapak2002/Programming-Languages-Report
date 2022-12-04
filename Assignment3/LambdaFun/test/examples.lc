@@ -1,0 +1,16 @@
+-- the simplest function
+val id = \x.x ;;
+
+-- we can use arithmetic on numbers
+val plusone = \x. x+1;;
+
+-- rec for recursive definitions, case instead of if-then-else
+rec add = \x . \y. case x of { 
+    0 -> y, 
+    _ -> plusone (add (x-1) y)} ;;
+
+-- pattern matching on lists
+rec member = \x.\y. case y of { 
+    [] -> false, 
+    (a:as) -> case x == a of { true -> true, _ -> member x as } };;
+
