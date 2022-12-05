@@ -1,0 +1,51 @@
+-- isempty function
+rec isempty = \x. case x of {
+    [] -> true,
+    _ -> false } ;;
+
+-- fib function
+rec fib = \x. case x of {
+    0 -> 0,
+    1 -> 1,
+    _ -> (fib (x - 1)) + (fib (x - 2))
+} ;;
+
+-- length function
+rec length = \x. case x of {
+    [] -> 0,
+    (a:as) -> 1 + (length as)
+} ;;
+
+-- even function
+rec even = \x. case x of {
+    [] -> true,
+    (a:as) -> case as of { [] -> false, (b:bs) -> even bs }
+
+} ;;
+
+-- append function
+rec append = \e.\list. case list of {
+    [] -> e:[],
+    (a:as) -> a:(append e as)
+    
+} ;;
+
+-- reverse function
+rec reverse = \list. case list of {
+    [] -> [],
+    (a:as) -> append a (reverse as)
+    
+} ;;
+
+-- weave function
+rec weave = \list.\list2. case list2 of {
+    [] -> list,
+    (b:bs) -> case list of { 
+        [] -> (weave (list2) []), 
+        (a:as) ->  case a > b of {
+            true -> b:(weave (a:as) bs),
+            false -> a:(weave as (b:bs))
+        }
+    }
+    
+} ;;
