@@ -17,12 +17,14 @@ rec length = \x.\y. case of y {
 
 -- even function
 rec even = \x.\y. case of y {
-      
+    [] -> true,
+
 
 } ;;
 
 -- reverse function
 rec reverse = \x.\y. case of y {
+    [] -> [],
     
 } ;;
 
