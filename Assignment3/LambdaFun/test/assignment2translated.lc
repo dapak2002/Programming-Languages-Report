@@ -5,30 +5,30 @@ rec isempty = \x.\y. case y of {
 } ;;
 
 -- fib function
-rec fib = \x.\y. case of y {
+rec fib = \x.\y. case y of {
 
 } ;;
 
 -- length function
-rec length = \x.\y. case of y {
+rec length = \x.\y. case y of {
     [] -> 0,
     (a:as) -> 1 + (length as)
 } ;;
 
 -- even function
-rec even = \x.\y. case of y {
+rec even = \x.\y. case y of {
     [] -> true,
 
 
 } ;;
 
 -- reverse function
-rec reverse = \x.\y. case of y {
+rec reverse = \list. case list of {
     [] -> [],
     
 } ;;
 
 -- weave function
-rec weave = \x.\y. case of y {
+rec weave = \list.\list2. case list of {
 
 } ;;
