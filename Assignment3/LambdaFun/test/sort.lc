@@ -1,0 +1,60 @@
+val nil = 
+    let val a = new [] in 
+    a := "NULL";
+    a ;;
+
+val cons = \e. \a. 
+    let val b = new [] in
+    b := [e,a];
+    b ;;
+
+val hd = \a.
+    case !a of {
+        "NULL" -> "tried to take the head of an empty list",  -- pattern match wtih "NULL", not with nil
+        [e,a'] -> e 
+    } ;;
+
+val tl = \a.
+    case !a of {
+        "NULL" -> "tried to take the tail of an empty list",
+        [e,a'] -> a'
+    } ;;
+
+rec insert = \elem. \list.
+     case !list of { 
+        "NULL" -> cons elem nil, 
+        [e,list'] -> case elem <= e of {
+            true -> cons elem list,
+            false -> cons (hd list) (insert elem (tl list))
+        }
+    } ;;
+
+rec sort = \list. 
+    case !list of {
+        "NULL" -> nil,
+        [e,list`] -> insert e (sort list`)
+    } ;;
+
+rec merge = \list. \list2. case !list2 of {
+    "NULL" -> list,
+    [e2,list2`] -> case !list of {
+        "NULL" -> (merge (list2) nil),
+        [e,list`] -> case e > e2 of {
+            true -> cons e2 (merge list (list2`)),
+            false -> cons e (merge (list`) list2)
+        }
+    }
+} ;;
+
+rec mergesort = \list. case !list of {
+    "NULL" -> nil,
+    [e,list`] -> 
+}
+
+
+-- `print (cons 6 (cons 4 (cons 2 nil)))` outputs [6,4,2]
+rec print = \list.
+    case !list of {
+        "NULL" -> [],
+        _ -> (hd list):(print (tl list))
+    } ;;
