@@ -23,10 +23,20 @@
     - else remove the head of the list, add 1, and return the tail of the list
 
 - even
+    - if the list is empty return true
+    - else
+
+- append
+    - if list is empty add element to list as head
+    - else add element to the end of the list as tail
    
 - reverse
+    - if list is empty return the empty list
+    - else 
 
 - weave 
+    - if list is empty then return empty list
+    - else
 
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
