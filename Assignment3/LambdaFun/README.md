@@ -23,12 +23,10 @@
     - else remove the head of the list, add 1, and return the tail of the list
 
 - even
-    - 
-    -
-    
+   
 - reverse
-- weave
-- 
+
+- weave 
 
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
