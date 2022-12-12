@@ -68,7 +68,6 @@ rec merge = \list. \list2. case !list2 of {
     These lists are named even and add while ptr is used to keep track of how many elements are left in the list.
     After separation, the smaller lists are merged into bigger ones maintaining order until the final result is a sorted list. -}
 rec mergesort = \list.
-
     let val odds = new [] in
     let val evens = new [] in
     let val ptr = new [] in
@@ -102,3 +101,15 @@ rec print = \list.
         "NULL" -> [],
         _ -> (hd list):(print (tl list))
     } ;;
+
+-- Testing insert: [2, 9, 14, 23, 24, 27]
+print (insert 14 (cons 2 ( cons 3 (cons 9 (cons 23 (cons 24 (cons 27 nil)))))));;
+
+-- Testing insertion sort: [2, 3, 4, 7, 8, 10]
+print (sort (cons 7 (cons 2 (cons 3 (cons 8 (cons 10 (cons 4 nil)))))));;
+
+-- Testing merge: [1, 2, 3, 4, 5, 6]
+print (merge (cons 2 (cons 3 (cons 5 nil))) (cons 1 (cons 4 (cons 6 nil))));;
+
+-- Testing merge sort: [2, 3, 4, 7, 8, 9]
+print (sort (cons 7 (cons 2 (cons 3 (cons 8 (cons 9 (cons 4 nil)))))));;
