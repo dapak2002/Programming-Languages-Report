@@ -78,3 +78,5 @@
 No known bugs or errors.
 
 * Make some interesting observations about this assignment. For example, show me the most interesting work you did on testing and debugging. Maybe inspecting the heap while debugging made you think of garbage collection, a topic that would be worth exploring.
+- Something interesting that we observed in this assignment was the difficulty of implementing mergesort in our lambda calculus. It was difficult to split the         lists without any pre-defined functions, and due to haskell logic we were also unable to store any defined variables. In order to work around this we created even     and odd lists and used a pointer to keep track of elements so the lists get sorted.
+- Another interesting observation we found out was that the print function was using the addresses of the data in a list to print out that data, rather than just       accessing the data itself. We found this out because we kept receiving the error "trying to access a non-address".
