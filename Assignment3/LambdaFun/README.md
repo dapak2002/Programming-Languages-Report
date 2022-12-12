@@ -24,7 +24,11 @@
 
 - even
     - 
-
+    -
+    
+- reverse
+- weave
+- 
 
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
