@@ -38,6 +38,15 @@
     - if list is empty then return empty list
     - else
 
+- insert
+
+- sort
+
+- merge
+
+- mergesort
+
+- print
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
 
