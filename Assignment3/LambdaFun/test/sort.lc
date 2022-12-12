@@ -20,6 +20,7 @@ val tl = \a.
         [e,a'] -> a'
     } ;;
 
+-- Insert will place the element in the list respective of order
 rec insert = \elem. \list.
      case !list of { 
         "NULL" -> cons elem nil, 
@@ -29,12 +30,14 @@ rec insert = \elem. \list.
         }
     } ;;
 
+-- Sort is an insertion sort in which each element is removed from the list, then reinserted at the end to make a complete sorted list
 rec sort = \list. 
     case !list of {
         "NULL" -> nil,
         [e,list'] -> insert e (sort list')
     } ;;
 
+-- Length is a helper function for mergesort to evenly distribute elements into the odd and even lists
 val length = \a. 
     let val ptr = new [] in
     let val i = new [] in
@@ -48,12 +51,8 @@ val length = \a.
         } ;
     !i;;
 
-rec lengthRec = \l. 
-    case !l of { 
-        "NULL" -> 0 , 
-        [e,l'] -> 1 + lengthRec (l')
-    } ;;
-
+-- Merge is similar to weave in our last assignment. It will remove the head elements from list1 and list2, comparing them to create a new list in
+    -- which the smallest element is placed first.
 rec merge = \list. \list2. case !list2 of {
     "NULL" -> list,
     [e2,list2'] -> case !list of {
@@ -65,25 +64,27 @@ rec merge = \list. \list2. case !list2 of {
     }
 } ;;
 
-{- print(mergesort (cons 4 (cons 7 (cons 9 (cons 6 (cons 2 (cons 3 nil)))))));; -}
+{- Merge sort separates the input list into two separate lists based on index number.
+    These lists are named even and add while ptr is used to keep track of how many elements are left in the list.
+    After separation, the smaller lists are merged into bigger ones maintaining order until the final result is a sorted list. -}
 rec mergesort = \list.
 
-    let val left = new [] in
-    let val right = new [] in
+    let val odds = new [] in
+    let val evens = new [] in
     let val ptr = new [] in
     ptr := list;
-    left := nil;
-    right := nil;
+    odds := nil;
+    evens := nil;
     
     while !(!ptr) != "NULL" do
         case !(!ptr) of {
             [e,a'] ->
-                    case (length !left) <= (length !right) of {
+                    case (length !odds) <= (length !evens) of {
                         true -> 
-                            left := cons e !left;
+                            odds := cons e !odds;
                         ptr := a',
                         false -> 
-                            right := cons e !right;
+                            evens := cons e !evens;
                         ptr := a'
                     }
         } ;
@@ -91,7 +92,7 @@ rec mergesort = \list.
         "NULL" -> nil,
         [s,list'] -> case !list' of {
             "NULL" -> cons s nil,
-            [x,list''] -> merge (mergesort !left) (mergesort !right)
+            [x,list''] -> merge (mergesort !odds) (mergesort !evens)
         }
     } ;;
 
