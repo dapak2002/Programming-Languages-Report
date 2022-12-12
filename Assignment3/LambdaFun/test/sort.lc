@@ -102,14 +102,27 @@ rec print = \list.
         _ -> (hd list):(print (tl list))
     } ;;
 
--- Testing insert: [2, 9, 14, 23, 24, 27]
-print (insert 14 (cons 2 ( cons 3 (cons 9 (cons 23 (cons 24 (cons 27 nil)))))));;
+-- Testing insert: 
+-- [1, 2, 3, 4, 5]
+print (insert 3 (insert 1 (insert 4 (insert 2 (insert 5 nil)))));;
+-- [1, 2, 3, 4, 5]
+print (insert 5 (insert 4 (insert 3 (insert 2 (insert 1 nil)))));;
 
--- Testing insertion sort: [2, 3, 4, 7, 8, 10]
-print (sort (cons 7 (cons 2 (cons 3 (cons 8 (cons 10 (cons 4 nil)))))));;
 
--- Testing merge: [1, 2, 3, 4, 5, 6]
+-- Testing insertion sort: 
+-- [2, 4, 6]
+print (sort (cons 6 (cons 4 (cons 2 nil))));;
+-- [2, 3, 9, 14, 23, 24, 27]
+print (sort (cons 14 ( cons 27 (cons 2 (cons 23 (cons 9 (cons 3 (cons 24 nil))))))));;
+
+-- Testing merge: 
+-- [1, 2, 3, 4, 5, 6]
 print (merge (cons 2 (cons 3 (cons 5 nil))) (cons 1 (cons 4 (cons 6 nil))));;
+-- [2, 3, 4, 5, 6, 7, 14]
+print (merge (cons 2 (cons 5 (cons 6 (cons 14 nil)))) (cons 3 (cons 4( cons 7 nil))));;
 
--- Testing merge sort: [2, 3, 4, 7, 8, 9]
-print (sort (cons 7 (cons 2 (cons 3 (cons 8 (cons 9 (cons 4 nil)))))));;
+-- Testing merge sort: 
+-- [2, 3, 4, 7, 8, 9]
+print (mergesort (cons 7 (cons 2 (cons 3 (cons 8 (cons 9 (cons 4 nil)))))));;
+-- [2, 3, 9, 14, 23, 24, 27]
+print (mergesort (cons 14 ( cons 27 (cons 2 (cons 23 (cons 9 (cons 3 (cons 24 nil))))))));;
