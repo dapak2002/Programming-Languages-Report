@@ -10,6 +10,22 @@
 
 # Critical Appraisal
 * Write the functions in pseudo code that is independent of the particular programming language used to implement the algorithm.
+- isempty
+    - if the list is an empty list return true otherwise return false
+
+- fib
+    - n in this case refers to the input
+    - if n is 0 return 0 if it is 1 return 1
+    - else return fib of n - 1 + fib of n - 2
+
+- length
+    - if the list is empty return 0
+    - else remove the head of the list, add 1, and return the tail of the list
+
+- even
+    - 
+
+
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
 
