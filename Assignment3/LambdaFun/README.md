@@ -24,7 +24,8 @@
 
 - even
     - if the list is empty return true
-    - else
+    - if the list has 1 element return false
+    - else remove the first two elements and try again
 
 - append
     - if list is empty add element to list as head
@@ -32,21 +33,43 @@
    
 - reverse
     - if list is empty return the empty list
-    - else 
+    - else remove the head of the list and append it to move it to the end
+    - this allows all elements to be moved to end resulting in a reversed list
 
 - weave 
-    - if list is empty then return empty list
-    - else
+    - if list 2 is empty then return empty list
+    - compare the first elements of each list
+    - 
 
 - insert
+    - if list is empty, return  list with element in list
+    - else compare the element to the head of the list
+        - if the head is greater than then put element at the front of the list
+        - if the head is less than the element, move the head to towards the front of the list and return with the tail of the list
 
 - sort
+    - if the list is empty return an empty list
+    - else insert the head and sort the tail of the list again
+    - this will craete a pattern until all of the elements have been removed from the list then inserted back into the list to have a perfectly sorted list
+    - represents insertion sort
 
 - merge
+    - essentially this is the same as weave from our last assignment
+    - remove the heads from both the lists
+    - compare which head of the list is lesser
+    - put the lesser head at the front and continue removing/comparing head until one of the lists is out of elements
+    - append the remaining list to the resulting list to have a merged list
 
 - mergesort
+    - sort the elements of the list into even indexes and odd indexes to split the list into two
+        - this is done by removing elements from the list and adding them to holder lists alternatively until there are no more elements
+        - merge the results of sorting the odds and evens
+            - this will split the odds and evens again until each element is in its own list
+            - from there, the algorithm will merge individual elements into lists maintaining order until a sorted list is resulted
 
 - print
+    - translates the syntax into list form (ex. (cons 1 (cons 2 (cons 3 nil))) translates to [1,2,3])
+    - if the list is empty it will return []
 
 * Make drawings that contain pictures of the heap illustrating your algorithms.
 
