@@ -32,25 +32,68 @@ rec insert = \elem. \list.
 rec sort = \list. 
     case !list of {
         "NULL" -> nil,
-        [e,list`] -> insert e (sort list`)
+        [e,list'] -> insert e (sort list')
+    } ;;
+
+val length = \a. 
+    let val ptr = new [] in
+    let val i = new [] in
+    i := 0;
+    ptr := a;
+    while !(!ptr) != "NULL" do
+        case !(!ptr) of {
+            [e,a'] -> 
+                    i := !i + 1; 
+                ptr := a'
+        } ;
+    !i;;
+
+rec lengthRec = \l. 
+    case !l of { 
+        "NULL" -> 0 , 
+        [e,l'] -> 1 + lengthRec (l')
     } ;;
 
 rec merge = \list. \list2. case !list2 of {
     "NULL" -> list,
-    [e2,list2`] -> case !list of {
+    [e2,list2'] -> case !list of {
         "NULL" -> (merge (list2) nil),
-        [e,list`] -> case e > e2 of {
-            true -> cons e2 (merge list (list2`)),
-            false -> cons e (merge (list`) list2)
+        [e,list'] -> case e > e2 of {
+            true -> cons e2 (merge list (list2')),
+            false -> cons e (merge (list') list2)
         }
     }
 } ;;
 
-rec mergesort = \list. case !list of {
-    "NULL" -> nil,
-    [e,list`] -> 
-}
+{- print(mergesort (cons 4 (cons 7 (cons 9 (cons 6 (cons 2 (cons 3 nil)))))));; -}
+rec mergesort = \list.
 
+    let val left = new [] in
+    let val right = new [] in
+    let val ptr = new [] in
+    ptr := list;
+    left := nil;
+    right := nil;
+    
+    while !(!ptr) != "NULL" do
+        case !(!ptr) of {
+            [e,a'] ->
+                    case (length !left) <= (length !right) of {
+                        true -> 
+                            left := cons e !left;
+                        ptr := a',
+                        false -> 
+                            right := cons e !right;
+                        ptr := a'
+                    }
+        } ;
+    case !list of {
+        "NULL" -> nil,
+        [s,list'] -> case !list' of {
+            "NULL" -> cons s nil,
+            [x,list''] -> merge (mergesort !left) (mergesort !right)
+        }
+    } ;;
 
 -- `print (cons 6 (cons 4 (cons 2 nil)))` outputs [6,4,2]
 rec print = \list.
