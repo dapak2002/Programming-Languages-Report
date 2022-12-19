@@ -889,15 +889,528 @@ In this case, S represents: $$z := z * y; x:= x - 1$$ This means that I represen
 
 \section{Project}
 
-For my project I will be looking into various types of programming languages and determining specific use cases and similarities between them. This project is focused on putting characteristics and attributes to programming languages and will be focused on 5-10 different languages. Some specific resources and documentation are GitHub databases.
+\subsection{Introduction}
+
+For my final project, I analyzed the top 10 most popular programming language subreddits to determine key characteristics and attributes of each language. Subreddits are communities on the social media platform “Reddit” that offer a forum for developers and users alike to discuss various topics. Each subreddit is focused on a specific topic, and in this case, we will take a look at the programming language subreddits to see if we can analyze discussions and find out more about the language. This project aims to provide insight into how each programming language is used, including common applications, errors and error messages, and tools and packages that are frequently used by developers.
+
 \subsection{Specification}
-The attributes to look at would be their industry/primary use, popularity, similar languages (as in what other languages do users of one language use), number of repositories, and growth/decline over the years. By doing a sentiment analysis on the Reddit page for the programming languages, (r/Python, r/C++, r/Java and so on), we use this determine which use cases are the most popular or perhaps other interesting facts about the language (such as common errors, programs, or discussion topics). This will look to create a model in which languages are popular and how they are being used.
+
+\subsubsection{Prototype Specifications}
+To find the top 10 most popular programming languages, I used the website \href{https://madnight.github.io/githut/#/pull_requests/2022/3}{GitHut 2.0}. This site tracks various Github statistics such as pull requests, pushes, stars, and issues. I based my decision off of the number of pull requests as this is the most reliable way to determine how many meaningful changes/versions were made. The main prototype of the project is a Python script that uses the `praw` module from Reddit. This package allows you to use Reddit API calls and access posts from each subreddit. Since the top posts are continuously changing, the time is output at the top of the file. The script defines a list of subreddit names to be processed. For each subreddit in the list, the script retrieves the subreddit, obtains the top 100 posts in the subreddit using the hot() method, and creates a frequency dictionary to store the frequency of each word in the subreddit. The script then iterates through the top posts, extracts the text of each post, splits the text into words, removes punctuation, and lowercases the words. It counts the frequency of each word and stores it in the frequency dictionary and then removes certain words from the frequency dictionary based on the manually added list of words to remove. After, it sorts the frequency dictionary in descending order by frequency and prints the top 10 words and their frequencies for the subreddit. Finally, the script writes the words and frequencies to a CSV file with the subreddit name as the file name.
+
+\subsubsection{Report Specifications}
+In the documentation, I will be going over each programming language. This means taking a look at what each of the words mean, why each of the words were included, interesting topics about the frequencies, and in the end going over the differences and summaries of each of the languages.
 
 \subsection{Prototype}
-\subsection{Documentation}
-\subsection{Critical Appraisal}
 
-\ldots
+\subsubsection{GitHut 2.0 Search}
+From GitHut 2.0 on December 18th, 2022 at 1:28 PM, the following programming languages were at the top for pull requests from greatest to least:
+
+\noindent
+Python, Java, C++, Go, JavaScript, TypeScript, PHP, Ruby, C, and C#
+
+\subsubsection{Reddit Python Prototype}
+I chose to write the main prototype in Python as it is the easiest to follow along with, and has all of the functionality that I wanted. The version of Python I used is 3.9.15. This was run on an arm64-based Macbook with Python installed through Conda and uses pygplates. You will need to install are the \verb |praw| package and also need access to a Reddit developer account (which can applied for on the Reddit website). By creating a new application on Reddit, this gives you access to both the client ID and secret code which must be replaced in order to run the program. The prototype Python script can also be found here on \href{https://github.com/dapak2002/Programming-Language-Reddit-Scraper}{GitHub}:
+\begin{lstlisting}
+import praw
+import string
+import csv
+
+# Replace YOUR_CLIENT_ID and YOUR_CLIENT_SECRET with your Reddit API key and secret
+reddit = praw.Reddit(client_id="YOUR_CLIENT_ID", client_secret="YOUR_CLIENT_SECRET", user_agent="my_user_agent")
+
+subreddit_names = ["python" , "java", "cpp", "golang" , "javascript" , "typescript", "golang" , "csharp" , "cpp" , "c_programming"]  # List of subreddit names to process
+subreddit_names = ["java" , "typescript", "javascript", "php" , "ruby" , "python", "golang" , "csharp" , "cpp" , "c_programming"]  # List of subreddit names to process
+
+for subreddit_name in subreddit_names:
+    subreddit = reddit.subreddit(subreddit_name)  # Get the subreddit
+
+    top_posts = subreddit.hot(limit=100)  # Get the top 100 posts in the subreddit
+
+    frequency = {}  # Dictionary to store the frequency of each word
+
+    for post in top_posts:
+        # Get the text of the post
+        text = post.title + " " + post.selftext
+
+        # Split the text into words and remove punctuation
+        words = text.split()
+        words = [word.lower().translate(str.maketrans('', '', string.punctuation)) for word in words]
+
+        # Count the frequency of each word
+        for word in words:
+            if len(word) >= 4:  # Only consider words with at least 4 characters
+                if word in frequency:
+                    frequency[word] += 1
+                else:
+                    frequency[word] = 1
+
+    # Remove certain words from the frequency dictionary
+    stop_words = [ "really" , "something" , "should" , "make" , "been" , "help" , "other" , "please" , "here" , "which" , "using" , "about" , "into" , "know" , "where" , "like", "when" , "only" , "also" , "used" , "there" , "golang" , "python" , "string" , "this", "have" , "with" , "your", "want", "that" , "need" , "just", "will" ,"from" , "some" , "within" , "does" , "would", "what" , "more" , "java" , "typescript", "javascript", "php" , "ruby" , "python", "golang" , "csharp" , "cpp" , "c_programming"]  # Add any other words you want to remove
+    for word in stop_words:
+        if word in frequency:
+            del frequency[word]
+
+    # Sort the frequency dictionary in descending order
+    sorted_frequency = sorted(frequency.items(), key=lambda x: x[1], reverse=True)
+
+    # Print the top 10 words with their frequency, preceded by the subreddit name
+    print(f"Top words in /r/{subreddit_name}:")
+    for i in range(10):
+        word, frequency = sorted_frequency[i]
+        print(f"{word}: {frequency}")
+    print()  # Print an empty line to separate the output for different subreddits
+
+    # Write the words and frequencies to a CSV file
+    with open(f"{subreddit_name}.csv", "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(["word", "frequency"])  # Write the header row
+        for word, frequency in sorted_frequency:
+            writer.writerow([word, frequency])
+\end{lstlisting}
+
+\medskip
+As described above in the specifications, the script will search the subreddits listed in \verb |subreddit_names| and will find the top 100 posts. These fields are able to be edited for example, by changing the subreddits or looking at the top 1000 posts. Another feature is I have made the length of the word need to be at least 4 characters to be considered. This is to remove common conjunctions like "a", "an", and "to" automatically, so I don't have to add them to the remove words list. The remove words list is all of the words I found uninteresting. These needed to be removed in order to find our true objective of unique and interesting topics about each programming language. The code also outputs to a CSV file which I implemented for future releases of other programs that may find this kind of data useful. The time is output at the top to know when the posts were taken from.
+
+\medskip
+The information output from the code listed above on December 18th, 2022:
+\begin{lstlisting}
+Timestamp: 2022-12-18 15:03:43.182166
+Top words in /r/python:
+data: 33
+project: 31
+file: 31
+time: 29
+code: 26
+people: 23
+files: 22
+framework: 20
+create: 19
+dash: 18
+
+Top words in /r/java:
+spring: 26
+support: 23
+class: 18
+time: 16
+code: 15
+data: 15
+value: 15
+examples: 14
+boot: 13
+services: 13
+
+Top words in /r/cpp:
+code: 48
+class: 39
+coroutine: 30
+library: 28
+performance: 22
+rocksdb: 22
+such: 20
+function: 20
+time: 19
+threads: 19
+
+Top words in /r/golang:
+func: 48
+code: 43
+type: 38
+struct: 37
+return: 35
+error: 33
+interface: 33
+client: 32
+server: 31
+data: 26
+
+Top words in /r/javascript:
+code: 37
+askjs: 16
+react: 12
+2022: 9
+library: 8
+website: 8
+data: 8
+programming: 7
+vuejs: 6
+source: 6
+
+Top words in /r/typescript:
+type: 167
+const: 52
+code: 48
+error: 47
+types: 42
+function: 36
+interface: 33
+return: 29
+number: 26
+array: 22
+
+Top words in /r/php:
+class: 24
+laravel: 22
+code: 18
+function: 16
+framework: 15
+project: 14
+file: 13
+docker: 13
+version: 12
+magic: 12
+
+Top words in /r/ruby:
+rails: 22
+code: 14
+method: 11
+data: 9
+looking: 8
+array: 8
+post: 7
+install: 7
+over: 6
+hello: 6
+
+Top words in /r/c_programming:
+function: 65
+struct: 59
+program: 54
+file: 54
+return: 50
+char: 48
+code: 46
+array: 46
+include: 40
+void: 29
+
+Top words in /r/csharp:
+public: 46
+code: 45
+data: 30
+void: 19
+class: 18
+input: 15
+private: 15
+most: 14
+application: 14
+double: 14
+\end{lstlisting}
+
+\subsection{Documentation}
+Each of the programming languages has been separated into sections with my analysis and summaries. The output is taken on December 18th, 2022.
+
+\subsubsection{Python}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+data & 33 & refers to information that is stored or created \\
+\hline
+project & 31 & refers to a specific task or activity with a defined outcome \\
+\hline
+file & 31 & refers to a collection of data stored in a computer system \\
+\hline
+time & 29 & refers to the duration during which an event or set of events takes place \\
+\hline
+code & 26 & refers to a set of instructions or statements written in a programming language \\
+\hline
+people & 23 & refers to human beings in general or a group of individuals \\
+\hline
+files & 22 & plural of file, (files is a hot topic in Python) \\
+\hline
+framework & 20 & refers to a set of ideas or concepts that provide a structure for something \\
+\hline
+create & 19 & refers to the process of making or producing something \\
+\hline
+dash & 18 & this can either be the symbol "-" or the data visualization framework package \\
+\hline
+\end{tabular}
+
+\medskip
+Python is one of the easier programming languages because of all its functions and packages that come included. Most of the words here refer to traditional software development such as data, project, file, and code. The unique ones are people, time, framework, create and dash. People most likely is here because the discussions are about developers or users. Framework is included because Python can often be used as a structure for projects cause of its simplicity. Create is most likely here because again, Python's simplicity and ease of use to create anything. Dash is the framework package used for data visualization in Python and is a helpful tool. Many tools like Dash and Pandas make Python a favorite for data visualization.
+
+\subsubsection{Java}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+spring & 26 & refers to a lightweight framework used to build Java applications \\
+\hline
+support & 23 & refers to assistance or help provided for a particular purpose \\
+\hline
+class & 18 & refers to a type of data structure used in object-oriented programming languages \\
+\hline
+time & 16 & refers to the duration during which an event or set of events takes place \\
+\hline
+code & 15 & refers to a set of instructions or statements written in a programming language \\
+\hline
+data & 15 & refers to information that is organized for analysis or interpretation \\
+\hline
+value & 15 & refers to the worth or importance of something \\
+\hline
+examples & 14 & refers to instances or demonstrations used to illustrate a concept or point \\
+\hline
+boot & 13 & refers to the process of starting a computer or device \\
+\hline
+services & 13 & refers to actions performed for the benefit of others, or a specific type of work or task \\
+\hline
+\end{tabular}
+
+\medskip
+Java is the first language I actually learned and is an interesting one because there are multiple Java subreddits such as r/java, r/javahelp, and r/learnjava. I chose the basic r/java because it included the most news and discussion about the programming language rather than the code. This removes typical keywords that get over used and overall I feel pretty good about the results. Here we see the top word being spring. Spring is a Java framework used to build Java applications. There is a lot of discussion around this because it is easy to use and helps simplify the software development process. Other discussions talk about support which redirect to r/javahelp. Again we see more software development terms like class, time, code, data, value, and boot. This subreddit focused a lot on discussions as seen in examples and services.
+
+\subsubsection{C++}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+code & 48 & refers to a set of instructions or statements written in a programming language \\
+\hline
+class & 39 & refers to a type of data structure used in object-oriented programming languages \\
+\hline
+coroutine & 30 & refers to a function that can be paused and resumed, allowing for efficient use of resources in concurrent programming \\
+\hline
+library & 28 & refers to a collection of pre-compiled code that can be used in a program \\
+\hline
+performance & 22 & refers to the effectiveness or efficiency of a system or process \\
+\hline
+rocksdb & 22 & refers to an embedded database system focused on storage speeds \\
+\hline
+such & 20 & refers to a person or thing of a particular kind \\
+\hline
+function & 20 & refers to a piece of code that performs a specific task or operation \\
+\hline
+time & 19 & refers to the duration during which an event or set of events takes place \\
+\hline
+threads & 19 & refers to a sequence of programmed instructions that can be executed concurrently in a computer program \\
+\hline
+\end{tabular}
+
+\medskip
+C++ is the second language I learned in academics and has a lot of features that are unique to C++. Starting off, we see the typical programming language terms like code, class, function, and time. However, because C++ has unique functionality like storage and process control, we see terms like coroutine and threads that are unique to this language. The discussion around C++ seems to be focused on performance with terms like rocksdb. RocksDB is an embedded database for fast and efficient storage. These types of programs are implemented through libraries which is another key term. Overall, this language is very controlled and performance-oriented. Not very easy for beginners to pick up, however a great tool for learning data structures and how the computer works as it is often used in school courses.
+
+\subsubsection{Go}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+func & 48 & refers to a function in the Go programming language \\
+\hline
+code & 43 & refers to a set of instructions or statements written in a programming language \\
+\hline
+type & 38 & refers to a classification of data based on the type of values it can hold \\
+\hline
+struct & 37 & refers to a composite data type in the Go programming language, used to group together values of different types \\
+\hline
+return & 35 & refers to a statement in a function that specifies the value to be returned to the calling function \\
+\hline
+error & 33 & refers to an abnormal condition or situation that may occur during the execution of a program \\
+\hline
+interface & 33 & refers to a type in the Go programming language that specifies a set of method signatures but does not provide an implementation \\
+\hline
+client & 32 & refers to a software application or system that accesses a service provided by another application or system, known as a server \\
+\hline
+server & 31 & refers to a software application or system that provides a service to other applications or systems, known as clients \\
+\hline
+data & 26 & refers to information that is organized for analysis or interpretation \\
+\hline
+\end{tabular}
+
+\medskip
+Go is language I have not heard of or used personally before this project.  Typically software development terms show up here with func, code, type, and data. We see some unique terms like struct and term which are coding terms most likely from code examples and language syntax. Error comes up often as well mainly due to the nature of Reddit. It is likely that the syntax terms and errors are linked in the sense that code examples are shown in posts. More interesting terms are interface, client, and server. These refer to the types of applications that are created showing that Go is used to make these kinds of software. The language is simplistic similar to Python, but uses C as its base with features to make it simpler. It is also important to know that this language is relatively new (2009 release) and offers great tools for a simpler design.
+
+\subsubsection{JavaScript}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+code & 37 & refers to a set of instructions or statements written in a programming language \\
+\hline
+askjs & 16 & refers to the tag on the title asking a question\\
+\hline
+react & 12 & refers to an open-source JavaScript library for building user interfaces \\
+\hline
+2022 & 9 & refers to the year 2022 \\
+\hline
+library & 8 & refers to a collection of pre-compiled code that can be used in a program \\
+\hline
+website & 8 & refers to a collection of related web pages that are hosted on a single domain and accessed via a web browser \\
+\hline
+data & 8 & refers to information that is organized for analysis or interpretation \\
+\hline
+programming & 7 & refers to the process of designing, writing, testing, and maintaining the source code of computer programs \\
+\hline
+vuejs & 6 & refers to an open-source JavaScript framework for building user interfaces and single-page applications \\
+\hline
+source & 6 & refers to the origin or beginning of something \\
+\hline
+\end{tabular}
+
+\medskip
+Javascript is used mainly for web development and other web applications. This can be seen in words like website, source, code, and data. Many of the tools for JS show up here as well like library, React, and VueJS. AskJS is a tag used on Reddit to sort post, in this case it is to ask a question. This structure is similar to how Java separates their subreddit. This language is interestingly unique because of the amount of tools that showed up in my analysis. Also the year 2022 came up and this may be due to the related packages showing release dates for this year. A term that didn't come up is web, it most likely would have made the list, however the character limit is set to 4.
+
+\subsubsection{TypeScript}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+type & 167 & refers to a classification of data based on the type of values it can hold \\
+\hline
+const & 52 & refers to a keyword in the TypeScript programming language that declares a constant value \\
+\hline
+code & 48 & refers to a set of instructions or statements written in a programming language \\
+\hline
+error & 47 & refers to an abnormal condition or situation that may occur during the execution of a program \\
+\hline
+types & 42 & refers to a classification of data based on the type of values it can hold \\
+\hline
+function & 36 & refers to a piece of code that performs a specific task or operation \\
+\hline
+interface & 33 & refers to a type in the TypeScript programming language that specifies a set of method signatures but does not provide an implementation \\
+\hline
+return & 29 & refers to a statement in a function that specifies the value to be returned to the calling function \\
+\hline
+number & 26 & refers to a data type in the TypeScript programming language that represents numeric values \\
+\hline
+array & 22 & refers to a data structure that stores a collection of items \\
+\hline
+\end{tabular}
+
+\medskip
+TypeScript is actually a superset for JavaScript that focuses on application-scale Java development. So while JavaScript is focused on web, TypeScript is focused on the applications. This is clear when we look that the words that come up which are vastly different. We see more syntax terms like type, const, code, return, number, and array. All of the terms are related to the actual programming and code rather than a discussion about topics. 
+This is one of the only cases where we see the whole discussion be about the code in the project. This tells us that the TypeScript subreddit is focused on debugging and code rather than the packages and new topics.
+
+\subsubsection{PHP}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+class & 24 & refers to a type of data structure used in object-oriented programming languages \\
+\hline
+laravel & 22 & refers to an open-source PHP web application framework used for web development \\
+\hline
+code & 18 & refers to a set of instructions or statements written in a programming language \\
+\hline
+function & 16 & refers to a piece of code that performs a specific task or operation \\
+\hline
+framework & 15 & refers to a set of ideas or concepts that provide a structure for something \\
+\hline
+project & 14 & refers to a specific task or activity with a defined outcome \\
+\hline
+file & 13 & refers to a collection of data stored in a computer system \\
+\hline
+docker & 13 & refers to a tool designed to make it easier to create, deploy, and run applications by using containers \\
+\hline
+version & 12 & refers to a particular stage in the development or release of a product \\
+\hline
+magic & 12 & used by a programmer to describe how online tutorials had skipped steps \\
+\hline
+\end{tabular}
+
+\medskip
+PHP is an all-purpose scripting language that is also focused on web development. Here we see the typical development terms such as class, function, code, and file most likely used in the context of code. We see some new terms like docker, which is a tool for containers and creating, deploying, and running applications (I have used this personally as well). Laravel is a package for web development in PHP to have an all-in-one place for security, development, and deployment tools.
+
+\medskip
+By far the funniest section of the report is found in why the term "magic" came up so many times. After trying to look for why the word "magic" would come up in the context of PHP, I looked specifically at the subreddit and I found my reason. One \href{https://www.reddit.com/r/PHP/comments/zkresf/looking_for_intermediate_laravel_tutorial/}{Reddit post} is singularly responsible for why the word showed up in my search. This user had posted a rant into why Laravel tutorial videos had "magically" skipped steps and became overly frustrated. The Redditor then goes on to talk about how all the videos he watched were "magic" and never showed all of the full steps. In his post, the word "magic" comes up exactly 12 times including one from another user who had commented (however not all comments are considered in this count).
+
+\subsubsection{Ruby}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+rails & 22 & refers to an open-source web application framework written in Ruby \\
+\hline
+code & 14 & refers to a set of instructions or statements written in a programming language \\
+\hline
+method & 11 & refers to a function associated with a particular object or class in object-oriented programming languages \\
+\hline
+data & 9 & refers to information that is organized for analysis or interpretation \\
+\hline
+looking & 8 & in this context it is used for people searching for a topic \\
+\hline
+array & 8 & refers to a data structure that stores a collection of items \\
+\hline
+post & 7 & a discussion thread on Reddit \\
+\hline
+install & 7 & refers to the process of setting up or integrating a system or piece of software into an existing environment \\
+\hline
+over & 6 & refers to complete or done \\
+\hline
+hello & 6 & a typical greeting \\
+\hline
+\end{tabular}
+
+\medskip
+Another interesting web development language is Ruby. Compared to other subreddits, the frequency count for words is significantly lower than the rest of the languages. I am still not completely sure why, but my explanation for this is that there is not much consistent discussion about topics on the forum. The most popular framework is called Ruby on Rails hence rails being the top word. This is followed by other programming terms like code, method, array, and data. The words looking and install are referring to users searching for how to install the Ruby on Rails package, however there is little discussion about the actual package. In this analysis, we get many weird words like over and hello showing up along with post. Hello is because someone is writing a Hello World program and is used as a greeting in many posts. 
+
+\subsubsection{C}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+function & 65 & refers to a piece of code that performs a specific task or operation \\
+\hline
+struct & 59 & refers to a composite data type in the C programming language, used to group together values of different types \\
+\hline
+program & 54 & refers to a set of instructions or statements written in a programming language \\
+\hline
+file & 54 & refers to a collection of data stored in a computer system \\
+\hline
+return & 50 & refers to a statement in a function that specifies the value to be returned to the calling function \\
+\hline
+char & 48 & refers to a data type used to represent a single character in the C programming language \\
+\hline
+code & 46 & refers to a set of instructions or statements written in a programming language \\
+\hline
+array & 46 & refers to a data structure that stores a collection of items \\
+\hline
+include & 40 & refers to a directive in the C programming language used to include header files in a program \\
+\hline
+void & 29 & refers to a special data type in the C programming language that indicates the absence of a value or type \\
+\hline
+\end{tabular}
+
+\medskip
+C is one of the earliest programming languages as well as one of the most technical. This can clearly be seen because all of the words included are either syntax terms or refer to software development. The syntax terms are function, struct, return, char, array, include, and void. All of these are keywords that are commonly used in C code examples. Words like program and file refer to the terms most likely used to describe the code examples. From this subreddit, we see that most of the posts are either code examples or questions rather than discussions about C topics.
+
+\subsubsection{C\#}
+\begin{tabular}{ | l | r | p{7cm} | }
+\hline
+Word & Frequency & Meaning \\
+\hline
+public & 46 & refers to a modifier in the C# programming language that indicates that a member or type is accessible to all classes or types \\
+\hline
+code & 45 & refers to a set of instructions or statements written in a programming language \\
+\hline
+data & 30 & refers to information that is organized for analysis or interpretation \\
+\hline
+void & 19 & refers to a special data type in the C# programming language that indicates the absence of a value or type \\
+\hline
+class & 18 & refers to a type of data structure used in object-oriented programming languages \\
+\hline
+input & 15 & refers to data that is entered into a computer system or program \\
+\hline
+private & 15 & refers to a modifier in the C# programming language that indicates that a member or type is accessible only within the class or type in which it is declared \\
+\hline
+most & 14 & refers to the majority or greatest number of something \\
+\hline
+application & 14 & refers to a software program or system designed to perform a specific function or set of functions \\
+\hline
+double & 14 & refers to a data type in the C# programming language that represents a floating-point value with double precision \\
+\hline
+\end{tabular}
+
+\medskip
+C\# is a popular variation of C more suited for general use. This language is used in many use cases, however, the one I am familiar with is in Unity game development. Again, the list of words is all about syntax terms and application development. We see public, void, class, input, private, and double which are all syntax words in C\#. We also see application, data, and code which are terms for software development. The interesting ones are most and input. Most just happens to be a term that a lot of the Redditors use to describe their code problems where only a few cases are errors, ex.) Most of the program works. Input verifies what I mentioned earlier about game development and user input is an important factor into why C\# is popular in Unity and other engines.
+
+
+\subsection{Critical Appraisal}
+\subsubsection{Known Bugs/Errors}
+There are no known bugs or errors in the prototype.
+
+\subsubsection{Interesting notes}
+There are many design choices I made to help clarify the results and have something meaningful. First, the category choice of posts is from the "Hot" category rather than "Top". Although top would give me more reliable data, hot posts was my choice because it keeps all of the posts relevant for that time, and depending on when you run the program, we may be able to do another analysis another time to show the evolution of discussion topics. Also, choosing the top 100 posts was another decision because 10 would be inconsistent in giving meaningful results, and the run time is relatively long so I kept it to 100 posts as not to have too many requests. Moving onto the character limit of 4. I tested many iterations of 1 - 5, and I found 4 to be a sweet spot. Many conjunctions and shorter words like "a", "and", and "to" come up below 4 characters, so it made sense to put it at 4. However, we did miss many opportunities like "web" and other abbreviations that may have been important to the language, but it was a good compromise. The next was figuring out the removed words list. This came to trial and error of trying the analysis and manually removing the words that seemed uninteresting. Most of these are general terms that would not provide any value to the analysis. An interesting case that came up was the word "x200b". At first, I thought this may have been a code for only specific languages, but found out that this is the unicode for a zero-unit space. Just from the way the program separates words, this word needed to be manually removed as it was being considered as its own word. If you haven't already, go read my favorite section on PHP. I thought it was funny that a single user can affect the program so drastically and really shows some of the frustrations with the programming language tutorial. 
 
 \section{Conclusions}\label{conclusions}
 
