@@ -253,6 +253,50 @@ In our original algorithm, it is shown that "hanoi" shows up 31 times. This is a
 
 \noindent For 1 ring, this is simple and would only take 1 move to solve. For 2 rings, this is 3 moves to solve. For 3 rings it is 7 moves to solve, for 4 rings it is 15 moves, and for 5 rings it is 31 moves. In this we see a pattern where for each additional ring, you double the amount of moves and add 1. In conclusion if n is the number of rings, this leads us to the equation of moves(n) = 2 * moves(n - 1) + 1, where moves(1) = 1 and n is greater than 0.
 
+\subsubsection{Week 2 Function Evaluations}
+\begin{lstlisting}
+    select_evens [1,2,3,4]
+        select_evens [2,3,4]
+        2 : (select_evens [3,4])
+        2 : (select_evens [4])
+        2 : (4 : (select_evens []))
+        2 : (4 : [])
+        [2,4]
+
+    select_odds [1,2,3,4]
+        1 : (select_odds [2,3,4])
+        1 : (select_odds [3,4])
+        1 : (3 :(select_odds [4]))
+        1 : (3 : (select_odds []))
+        1 : (3 : [])
+        [1,3]
+
+    member 3 [1,2,3,4]
+        member 3 [2,3,4]
+        member 3 [3,4]
+        True
+        
+    append [1,2,3] [4,5] = 
+        1 : (append [2,3] [4,5]) = 
+        1 : (2 : (append [3] [4,5])) = 
+        1 : (2 : (append [3] [4,5])) = 
+        1 : (2 : (3 : (append [] [4,5]))) = 
+        1 : (2 : (3 : [4,5])) = 
+        [1,2,3,4,5]
+
+    revert [1,2,3]
+        revert [2,3] : 1
+        revert [3] : 2 : 1
+        revert [] 3 : 2 : 1
+        [3,2,1]
+
+    less_equal [1,2,3] [4,5,6]
+        less_equal [2,3] [5,6]
+        less_equal [3] [6]
+        less_equal [] []
+        True
+\end{lstlisting}
+
 \subsection{Week 4}
 This week is focused on concrete and abstract syntax trees which are essentially ways to parse equations. 
 \subsubsection{Concrete Syntax Trees}
@@ -278,14 +322,18 @@ Exp1 -> Exp2
     [Exp
         [Exp1
             [Exp2
-                [2]
+                [Int
+                    [2]
+                ]
             ]
         ]
     ]
     [+]
     [Exp1
         [Exp2
-            [1]
+            [Int
+                [1]
+            ]
         ]
     ]
   ]
@@ -302,7 +350,9 @@ Exp1 -> Exp2
     [Exp
         [Exp1
             [Exp2
-                [1]
+                [Int
+                    [1]
+                ]
             ]
         ]
     ]
@@ -310,12 +360,16 @@ Exp1 -> Exp2
     [Exp1
         [Exp1
             [Exp2
-                [2]
+                [Int
+                    [2]
+                ]
             ]
         ]
         [*]
         [Exp2
-            [3]
+            [Int
+                [3]
+            ]
         ]
     ]
 ]
@@ -331,7 +385,9 @@ Exp1 -> Exp2
 [Exp
     [Exp
         [Exp1
-            [1]
+            [Int
+                [1]
+            ]
         ]
     ]
     [+]
@@ -342,12 +398,16 @@ Exp1 -> Exp2
                 [Exp1
                         [Exp1
                             [Exp2
-                            [2]
+                                [Int
+                                    [2]
+                                ]
                             ]
                         ]
                         [*]
                         [Exp2
-                            [3]
+                            [Int
+                                [3]
+                            ]
                         ]
                 ]
             ]
@@ -373,14 +433,18 @@ for tree={
                 [Exp
                     [Exp1
                         [Exp2
-                            [1]
+                            [Int
+                                [1]
+                            ]
                         ]
                     ]
                 ]
                 [+]
                 [Exp1
                     [Exp2
-                        [2]
+                        [Int
+                            [2]
+                        ]
                     ]
                 ]
             ]
@@ -389,7 +453,9 @@ for tree={
     ]
     [*]
     [Exp2
-        [3]
+        [Int
+            [3]
+        ]
     ]
 ]
 \end{forest}
@@ -407,7 +473,9 @@ for tree={
             [Exp
                 [Exp1
                     [Exp2
-                        [1]
+                        [Int
+                            [1]
+                        ]
                     ]
                 ]
             ]
@@ -415,12 +483,16 @@ for tree={
             [Exp1
                 [Exp1
                     [Exp2
-                        [2]
+                        [Int
+                            [2]
+                        ]
                     ]
                 ]
                 [*]
                 [Exp2
-                    [3]
+                    [Int
+                        [3]
+                    ]
                 ]
             ]
         ]
@@ -428,19 +500,25 @@ for tree={
         [Exp1
             [Exp1
                 [Exp2
-                    [4]
+                    [Int
+                        [4]
+                    ]
                 ]
             ]
             [*]
             [Exp2
-                [5]
+                [Int
+                    [5]
+                ]
             ]
         ]
     ]
     [+]
     [Exp1
         [Exp2
-            [6]
+            [Int
+                [6]
+            ]
         ]
     ]
 ]
@@ -757,7 +835,7 @@ What do the normal forms mean? Describe the function implemented by the ARS.
 \medskip
 A normal form essentially means a value or expression that cannot be simplified further by any rules. This function is removing all duplicate values and allowing one to alternate the expression from "ab" to "ba" freely. 
 
-\section{Week 9} This week, the lessons are focused towards understanding more about ARS and we will perform an analysis on a set of rules. I will first talk about some milestones set for the project to put steps that are measurable towards progress of completion.
+\subsection{Week 9} This week, the lessons are focused towards understanding more about ARS and we will perform an analysis on a set of rules. I will first talk about some milestones set for the project to put steps that are measurable towards progress of completion.
 
 \subsubsection{Final Project Milestones}
 For the final project, here are the due dates and requirements for each:
@@ -832,14 +910,14 @@ All normal forms are not different. Because we have rules to transpose from a re
 \subsection{Week 10}
 In week 10 we continue lambda calculus reductions and computations. For this week's exercise the problem to solve is defined in \href{https://hackmd.io/@alexhkurz/rJEeYqZtw}{Lambda Calculus: Extensions} by Alex Kurz. This problem is to be solved using previously attempted equational reasoning methods.
 
-\subsubsection{Solving fix_F 2}
+\subsubsection{Solving fix\_F 2}
 The problem is defined as follows:
 \begin{lstlisting}
 \f.\n if n == 0 then 1 else f(n-1)*n
 fix_F \approx F fix_f
 \end{lstlisting}
 
-This is solved using equational reasoning as follows (image is also uploaded to \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/HW10.png}{Github}):
+This is solved using equational reasoning as follows (image is also uploaded to \href{https://github.com/dapak2002/Pak-D-CPSC-354-Report/blob/main/src/HW10.jpeg}{Github}):
 
 \begin{figure}[htp]
     \centering
@@ -1379,7 +1457,7 @@ C is one of the earliest programming languages as well as one of the most techni
 \hline
 Word & Frequency & Meaning \\
 \hline
-public & 46 & refers to a modifier in the C# programming language that indicates that a member or type is accessible to all classes or types \\
+public & 46 & refers to a modifier in the C\# programming language that indicates that a member or type is accessible to all classes or types \\
 \hline
 code & 45 & refers to a set of instructions or statements written in a programming language \\
 \hline
@@ -1414,9 +1492,20 @@ There are many design choices I made to help clarify the results and have someth
 
 \section{Conclusions}\label{conclusions}
 
-(approx 400 words)
+Here is my conclusion:
 
-In the conclusion, I want a critical reflection on the content of the course. Step back from the technical details. How does the course fit into the wider world of programming languages and software engineering?
+\medskip
+
+This course has been insightful in the way programs can be implemented. By using a low-level language like Haskell, this engages me to use different algorithm techniques that I normally would not come up with. Because Haskell only does substitutions, this makes functions recursive and need thoughtful solutions for seemingly simple problems like addition. In reflecting on the concepts of this course, it is clear that the concepts of programming languages, concrete syntax trees, abstract syntax trees, recursion, lambda calculus, Hoare logic, and ARS are all critical to the field of computer science and software engineering. Each of these concepts plays a role in the design and implementation of programming languages and in the development of software.
+
+\medskip
+This course has been insightful in the way programs can be implemented. By using a low-level language like Haskell, engages me to use different algorithm techniques that I normally would not come up with. Because Haskell only does substitutions, this makes functions recursive and need thoughtful solutions for seemingly simple problems like addition. In reflecting on the concepts of this course, it is clear that the concepts of programming languages, concrete syntax trees, abstract syntax trees, recursion, lambda calculus, Hoare logic, and ARS are all critical to the field of computer science and software engineering. Each of these concepts plays a role in the design and implementation of programming languages and in the development of software.
+
+\medskip
+Lambda calculus and recursion are important for understanding some basic concepts of substitution in programs. This can teach students how to write recursive programs and the advantages and disadvantages of using this technique. Creating our own interpreter through the LambdaNat assignments allowed us to see how programs and functions are built from the ground up. Writing our own variable types and syntax allowed us to fully understand how variables work and interact. This lets us program our own interactions between two variables and even create operators that would not normally be allowed to be made. We also get to see the use of proofs through invariants and Hoare logic. This concept was useful for understanding the input of a function and how it connects to the output. By having designated output rules, this can be reverse-engineered so we can think of the process. Through understanding the output we are able to come up with the methods and processes to get there from the input. Invariants are a way to write these types of rules in ways that are understandable from an outside perspective. Without knowing how the function works, invariants are a way to simplify the terms for someone who may not understand deep-level computer science.
+
+\medskip
+Overall, the content of this course has provided a valuable foundation for understanding the principles and theories underlying programming languages and software engineering. It has also highlighted the importance of staying current with developments in the field and being familiar with a range of programming languages. Understanding these concepts and theories is essential to building software that is both reliable and understandable by others. Concepts shown here can be used to create complex programs with unique techniques.
 
 \begin{thebibliography}{99}
 \bibitem[PL]{PL} \href{https://github.com/alexhkurz/programming-languages-2022/blob/main/README.md}{Programming Languages 2022}, Chapman University, 2022.
